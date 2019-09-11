@@ -1,0 +1,19 @@
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  wallpapers: [Wallpaper!]! @relation(name: "WallpaperToUser", onDelete: CASCADE)
+}
+
+type Wallpaper {
+  id: ID! @id
+  wallpaperId:  String! 
+  source: Source! 
+  user: User! @relation(name: "WallpaperToUser")
+}
+
+enum Source {
+  PEXELS
+  UNSPLASH
+}
