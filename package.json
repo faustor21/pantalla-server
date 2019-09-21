@@ -4,9 +4,9 @@
   "description": "A background chooser application for Linux (Server Side)",
   "main": "server.js",
   "scripts": {
-    "start": "node -r dotenv/config  dist/server.js",
+    "start": "node -r dotenv/config dotenv_config_path=env/prod.env dist/server.js",
     "build:prod": "babel src -d dist --copy-files",
-    "dev": "nodemon src/server.js --ext js,graphql --exec \"npm run lint && babel-node -r node_modules/dotenv/config\"",
+    "dev": "nodemon src/server.js --ext js,graphql --exec \"npm run lint && babel-node -r node_modules/dotenv/config  src/server.js dotenv_config_path=env/dev.env\"",
     "lint": "eslint --ext .js --fix src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

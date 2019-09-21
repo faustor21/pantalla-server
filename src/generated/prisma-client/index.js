@@ -7,11 +7,20 @@ var models = [
   {
     name: "User",
     embedded: false
+  },
+  {
+    name: "FavoriteWallpaper",
+    embedded: false
+  },
+  {
+    name: "Source",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `http://localhost:4466`
+  endpoint: `${process.env["PRISMA_ENDPOINT"]}`,
+  secret: `${process.env["PRISMA_SECRET"]}`
 });
 exports.prisma = new exports.Prisma();
