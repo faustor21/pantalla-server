@@ -1,12 +1,16 @@
 type Query {
   users: [User!]!
   user(userId: ID!): User!
+  favoriteWallpapers: [FavoriteWallpaper!]!
+  favoriteWallpaper(favoriteWallpaperId: ID!): FavoriteWallpaper!
 }
 
 type Mutation {
   createUser(data: CreateUserInput!): User!
-  updateUser(data: UpdateUserInput!): User!
+  updateUser(data: UpdateUserInput!, userId: ID!): User!
   deleteUser(userId: ID!): User!
+  createFavoriteWallpaper(data: CreateFavoriteWallpaperInput!): FavoriteWallpaper!
+  deleteFavoriteWallpaper(wallpaperId: ID!): FavoriteWallpaper!
 }
 
 type User {
@@ -33,6 +37,12 @@ type FavoriteWallpaper {
 enum Source {
   PEXELS
   UNSPLASH
+}
+
+input CreateFavoriteWallpaperInput {
+  wallpaperId: String!
+  source: String! 
+  user: ID!
 }
 
 input CreateUserInput {

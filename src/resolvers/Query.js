@@ -1,12 +1,9 @@
+import * as userOperations from '../operations/query/User'
+import * as favoriteWallpaperOperations from '../operations/query/FavoriteWallpaper'
+
 const Query = {
-  user (parent, args, { prisma }, info) {
-    return prisma.user({
-      where: { id: args.userId }
-    })
-  },
-  users (parent, args, { prisma }, info) {
-    return prisma.users()
-  }
+  ...userOperations,
+  ...favoriteWallpaperOperations
 }
 
 export default Query

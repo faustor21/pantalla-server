@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['standard', 'plugin:import/errors', 'plugin:import/warnings'],
+  extends: [ 'plugin:import/errors', 'plugin:import/warnings', 'standard', 'prettier' ],
   plugins: ['import'],
   parser: 'babel-eslint',
   env: {
@@ -14,5 +14,5 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module'
   },  
-  rules: {}
+  rules: {  }
 }
