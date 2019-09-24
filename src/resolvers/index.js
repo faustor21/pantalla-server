@@ -1,13 +1,11 @@
 import Query from './Query'
 import Mutation from './Mutation'
-// import User from './User'
-// import FavoriteWallpaper from './FavoriteWallpaper'
+import typeResolvers from './types'
 
 const resolvers = {
   Query,
-  Mutation
-  // User,
-  // FavoriteWallpaper
+  Mutation,
+  ...typeResolvers
 }
 
 export { resolvers }

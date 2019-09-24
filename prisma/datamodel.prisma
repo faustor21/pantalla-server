@@ -4,7 +4,7 @@ type User {
   email: String! @unique
   password: String!
   avatar: String
-  favoritesWallpapers: [FavoriteWallpaper!]! @relation(name: "FavWallpaperToUser", onDelete: CASCADE)
+  favoriteWallpapers: [FavoriteWallpaper!]! @relation(name: "FavWallpaperToUser", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt 
 }

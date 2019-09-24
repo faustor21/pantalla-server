@@ -1,9 +1,7 @@
-import * as userOperations from '../operations/mutation/User'
-import * as favoriteWallpapersOperations from '../operations/mutation/FavoriteWallpaper'
+import { mutationOperations } from '../operations'
 
 const Mutation = {
-  ...userOperations,
-  ...favoriteWallpapersOperations
+  ...mutationOperations
 }
 
 export default Mutation

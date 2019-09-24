@@ -9,27 +9,29 @@ type Mutation {
   createUser(data: CreateUserInput!): User!
   updateUser(data: UpdateUserInput!, userId: ID!): User!
   deleteUser(userId: ID!): User!
-  createFavoriteWallpaper(data: CreateFavoriteWallpaperInput!): FavoriteWallpaper!
+  createFavoriteWallpaper(
+    data: CreateFavoriteWallpaperInput!
+  ): FavoriteWallpaper!
   deleteFavoriteWallpaper(wallpaperId: ID!): FavoriteWallpaper!
 }
 
 type User {
-  id: ID! 
+  id: ID!
   name: String!
   email: String!
   password: String!
   avatar: String
-  favoritesWallpapers: [FavoriteWallpaper!]! 
-  createdAt: String! 
+  favoriteWallpapers: [FavoriteWallpaper!]!
+  createdAt: String!
   updatedAt: String!
 }
 
 # User's favorites wallpapers
 type FavoriteWallpaper {
   id: ID!
-  wallpaperId:  String!  # This is the wallpaper's id given by the source, not the local id
-  source: Source! 
-  user: User! 
+  wallpaperId: String! # This is the wallpaper's id given by the source, not the local id
+  source: Source!
+  user: User!
   createdAt: String!
   updatedAt: String!
 }
@@ -41,7 +43,7 @@ enum Source {
 
 input CreateFavoriteWallpaperInput {
   wallpaperId: String!
-  source: String! 
+  source: String!
   user: ID!
 }
 

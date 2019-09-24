@@ -1,9 +1,7 @@
-import * as userOperations from '../operations/query/User'
-import * as favoriteWallpaperOperations from '../operations/query/FavoriteWallpaper'
+import { queryOperations } from '../operations'
 
 const Query = {
-  ...userOperations,
-  ...favoriteWallpaperOperations
+  ...queryOperations
 }
 
 export default Query

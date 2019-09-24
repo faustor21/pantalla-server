@@ -1,7 +1,5 @@
 const user = (parent, args, { prisma }, info) => {
-  return prisma.user({
-    where: { id: args.userId }
-  })
+  return prisma.user({ id: args.userId })
 }
 
 const users = (parent, args, { prisma }, info) => {

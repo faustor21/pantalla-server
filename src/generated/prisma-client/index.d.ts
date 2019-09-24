@@ -310,9 +310,9 @@ export interface UserWhereInput {
   avatar_not_starts_with?: Maybe<String>;
   avatar_ends_with?: Maybe<String>;
   avatar_not_ends_with?: Maybe<String>;
-  favoritesWallpapers_every?: Maybe<FavoriteWallpaperWhereInput>;
-  favoritesWallpapers_some?: Maybe<FavoriteWallpaperWhereInput>;
-  favoritesWallpapers_none?: Maybe<FavoriteWallpaperWhereInput>;
+  favoriteWallpapers_every?: Maybe<FavoriteWallpaperWhereInput>;
+  favoriteWallpapers_some?: Maybe<FavoriteWallpaperWhereInput>;
+  favoriteWallpapers_none?: Maybe<FavoriteWallpaperWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -343,15 +343,15 @@ export interface FavoriteWallpaperCreateInput {
   id?: Maybe<ID_Input>;
   wallpaperId: String;
   source: Source;
-  user: UserCreateOneWithoutFavoritesWallpapersInput;
+  user: UserCreateOneWithoutFavoriteWallpapersInput;
 }
 
-export interface UserCreateOneWithoutFavoritesWallpapersInput {
-  create?: Maybe<UserCreateWithoutFavoritesWallpapersInput>;
+export interface UserCreateOneWithoutFavoriteWallpapersInput {
+  create?: Maybe<UserCreateWithoutFavoriteWallpapersInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutFavoritesWallpapersInput {
+export interface UserCreateWithoutFavoriteWallpapersInput {
   id?: Maybe<ID_Input>;
   name: String;
   email: String;
@@ -362,26 +362,26 @@ export interface UserCreateWithoutFavoritesWallpapersInput {
 export interface FavoriteWallpaperUpdateInput {
   wallpaperId?: Maybe<String>;
   source?: Maybe<Source>;
-  user?: Maybe<UserUpdateOneRequiredWithoutFavoritesWallpapersInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutFavoriteWallpapersInput>;
 }
 
-export interface UserUpdateOneRequiredWithoutFavoritesWallpapersInput {
-  create?: Maybe<UserCreateWithoutFavoritesWallpapersInput>;
-  update?: Maybe<UserUpdateWithoutFavoritesWallpapersDataInput>;
-  upsert?: Maybe<UserUpsertWithoutFavoritesWallpapersInput>;
+export interface UserUpdateOneRequiredWithoutFavoriteWallpapersInput {
+  create?: Maybe<UserCreateWithoutFavoriteWallpapersInput>;
+  update?: Maybe<UserUpdateWithoutFavoriteWallpapersDataInput>;
+  upsert?: Maybe<UserUpsertWithoutFavoriteWallpapersInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserUpdateWithoutFavoritesWallpapersDataInput {
+export interface UserUpdateWithoutFavoriteWallpapersDataInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
   avatar?: Maybe<String>;
 }
 
-export interface UserUpsertWithoutFavoritesWallpapersInput {
-  update: UserUpdateWithoutFavoritesWallpapersDataInput;
-  create: UserCreateWithoutFavoritesWallpapersInput;
+export interface UserUpsertWithoutFavoriteWallpapersInput {
+  update: UserUpdateWithoutFavoriteWallpapersDataInput;
+  create: UserCreateWithoutFavoriteWallpapersInput;
 }
 
 export interface FavoriteWallpaperUpdateManyMutationInput {
@@ -395,7 +395,7 @@ export interface UserCreateInput {
   email: String;
   password: String;
   avatar?: Maybe<String>;
-  favoritesWallpapers?: Maybe<FavoriteWallpaperCreateManyWithoutUserInput>;
+  favoriteWallpapers?: Maybe<FavoriteWallpaperCreateManyWithoutUserInput>;
 }
 
 export interface FavoriteWallpaperCreateManyWithoutUserInput {
@@ -419,7 +419,7 @@ export interface UserUpdateInput {
   email?: Maybe<String>;
   password?: Maybe<String>;
   avatar?: Maybe<String>;
-  favoritesWallpapers?: Maybe<FavoriteWallpaperUpdateManyWithoutUserInput>;
+  favoriteWallpapers?: Maybe<FavoriteWallpaperUpdateManyWithoutUserInput>;
 }
 
 export interface FavoriteWallpaperUpdateManyWithoutUserInput {
@@ -641,7 +641,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   email: () => Promise<String>;
   password: () => Promise<String>;
   avatar: () => Promise<String>;
-  favoritesWallpapers: <T = FragmentableArray<FavoriteWallpaper>>(args?: {
+  favoriteWallpapers: <T = FragmentableArray<FavoriteWallpaper>>(args?: {
     where?: FavoriteWallpaperWhereInput;
     orderBy?: FavoriteWallpaperOrderByInput;
     skip?: Int;
@@ -662,7 +662,7 @@ export interface UserSubscription
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   avatar: () => Promise<AsyncIterator<String>>;
-  favoritesWallpapers: <
+  favoriteWallpapers: <
     T = Promise<AsyncIterator<FavoriteWallpaperSubscription>>
   >(args?: {
     where?: FavoriteWallpaperWhereInput;
@@ -685,7 +685,7 @@ export interface UserNullablePromise
   email: () => Promise<String>;
   password: () => Promise<String>;
   avatar: () => Promise<String>;
-  favoritesWallpapers: <T = FragmentableArray<FavoriteWallpaper>>(args?: {
+  favoriteWallpapers: <T = FragmentableArray<FavoriteWallpaper>>(args?: {
     where?: FavoriteWallpaperWhereInput;
     orderBy?: FavoriteWallpaperOrderByInput;
     skip?: Int;

@@ -36,7 +36,7 @@ input FavoriteWallpaperCreateInput {
   id: ID
   wallpaperId: String!
   source: Source!
-  user: UserCreateOneWithoutFavoritesWallpapersInput!
+  user: UserCreateOneWithoutFavoriteWallpapersInput!
 }
 
 input FavoriteWallpaperCreateManyWithoutUserInput {
@@ -151,7 +151,7 @@ input FavoriteWallpaperSubscriptionWhereInput {
 input FavoriteWallpaperUpdateInput {
   wallpaperId: String
   source: Source
-  user: UserUpdateOneRequiredWithoutFavoritesWallpapersInput
+  user: UserUpdateOneRequiredWithoutFavoriteWallpapersInput
 }
 
 input FavoriteWallpaperUpdateManyDataInput {
@@ -316,7 +316,7 @@ type User {
   email: String!
   password: String!
   avatar: String
-  favoritesWallpapers(where: FavoriteWallpaperWhereInput, orderBy: FavoriteWallpaperOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FavoriteWallpaper!]
+  favoriteWallpapers(where: FavoriteWallpaperWhereInput, orderBy: FavoriteWallpaperOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FavoriteWallpaper!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -333,15 +333,15 @@ input UserCreateInput {
   email: String!
   password: String!
   avatar: String
-  favoritesWallpapers: FavoriteWallpaperCreateManyWithoutUserInput
+  favoriteWallpapers: FavoriteWallpaperCreateManyWithoutUserInput
 }
 
-input UserCreateOneWithoutFavoritesWallpapersInput {
-  create: UserCreateWithoutFavoritesWallpapersInput
+input UserCreateOneWithoutFavoriteWallpapersInput {
+  create: UserCreateWithoutFavoriteWallpapersInput
   connect: UserWhereUniqueInput
 }
 
-input UserCreateWithoutFavoritesWallpapersInput {
+input UserCreateWithoutFavoriteWallpapersInput {
   id: ID
   name: String!
   email: String!
@@ -404,7 +404,7 @@ input UserUpdateInput {
   email: String
   password: String
   avatar: String
-  favoritesWallpapers: FavoriteWallpaperUpdateManyWithoutUserInput
+  favoriteWallpapers: FavoriteWallpaperUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -414,23 +414,23 @@ input UserUpdateManyMutationInput {
   avatar: String
 }
 
-input UserUpdateOneRequiredWithoutFavoritesWallpapersInput {
-  create: UserCreateWithoutFavoritesWallpapersInput
-  update: UserUpdateWithoutFavoritesWallpapersDataInput
-  upsert: UserUpsertWithoutFavoritesWallpapersInput
+input UserUpdateOneRequiredWithoutFavoriteWallpapersInput {
+  create: UserCreateWithoutFavoriteWallpapersInput
+  update: UserUpdateWithoutFavoriteWallpapersDataInput
+  upsert: UserUpsertWithoutFavoriteWallpapersInput
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateWithoutFavoritesWallpapersDataInput {
+input UserUpdateWithoutFavoriteWallpapersDataInput {
   name: String
   email: String
   password: String
   avatar: String
 }
 
-input UserUpsertWithoutFavoritesWallpapersInput {
-  update: UserUpdateWithoutFavoritesWallpapersDataInput!
-  create: UserCreateWithoutFavoritesWallpapersInput!
+input UserUpsertWithoutFavoriteWallpapersInput {
+  update: UserUpdateWithoutFavoriteWallpapersDataInput!
+  create: UserCreateWithoutFavoriteWallpapersInput!
 }
 
 input UserWhereInput {
@@ -504,9 +504,9 @@ input UserWhereInput {
   avatar_not_starts_with: String
   avatar_ends_with: String
   avatar_not_ends_with: String
-  favoritesWallpapers_every: FavoriteWallpaperWhereInput
-  favoritesWallpapers_some: FavoriteWallpaperWhereInput
-  favoritesWallpapers_none: FavoriteWallpaperWhereInput
+  favoriteWallpapers_every: FavoriteWallpaperWhereInput
+  favoriteWallpapers_some: FavoriteWallpaperWhereInput
+  favoriteWallpapers_none: FavoriteWallpaperWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
