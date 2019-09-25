@@ -1,9 +1,23 @@
-# Tasks Todo
+# Tasks todos
 
-## Stuff missing in the app
-
+- [ ] Add the servers installation and configurations instructions in the README.md
 - [X] Fix relations between resolvers
 - [ ] Security
-  - Authentication
-    - [ ] install dependencies necessary: bcryptjs, jsonwebtoken
-  <!-- - Authorization -->
+  - [X] Authentication
+    - [X] Install necessary libraries: `bcryptjs`, `jsonwebtoken` 
+    - [X] Add utility function for password encryption
+    - [X] Configure and prepare jsonwebtoken to be use
+    - [X] Forbid the password field to be return when a user is returned. This is achieve by no adding the password field of the user's type in the schema.graphql
+    - [X] Check that all the resolvers go through the authentication middleware, except for `login` and `createUser`
+    - [X] Make sure everything is glue together and every query goes through after the user is authenticated
+    - Sign up
+      - [X] Return JWT token on user's Sign Up request
+      - [X] Respond in a proper way when the email is already taken in the DB
+      - [X] Encrypt user's password with bcryptjs
+    - Login
+      - [X] Add user login abilities
+      - [X] Return JWT token on login requests
+      - [X] Encrypt user's password with bcryptjs
+  - [ ] Authorization
+    - [ ] Install necessary library: `graphql-shield`
+- [ ] Tests

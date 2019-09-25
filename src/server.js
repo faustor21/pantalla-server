@@ -2,11 +2,19 @@ import { GraphQLServer } from 'graphql-yoga'
 
 import prisma from './prisma'
 import { resolvers } from './resolvers'
+import authenticate from './middleware/authenticate'
+import applyMiddlewareTo from './utils/applyMiddlewareTo'
+
+const authMiddleware = applyMiddlewareTo(resolvers, authenticate, [
+  'createUser',
+  'login'
+])
 
 const server = new GraphQLServer({
   typeDefs: 'src/schema.graphql',
   resolvers,
-  context (request) {
+  middlewares: [authMiddleware],
+  context(request) {
     return {
       prisma,
       request

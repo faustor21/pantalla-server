@@ -14,9 +14,14 @@ const createFavoriteWallpaper = async (parent, { data }, { prisma }, info) => {
 }
 
 const deleteFavoriteWallpaper = async (parent, args, { prisma }, info) => {
-  const deletedFavoriteWallpaper = await prisma.deleteFavoriteWallpaper({
-    id: args.wallpaperId
-  })
+  let deletedFavoriteWallpaper
+  try {
+    deletedFavoriteWallpaper = await prisma.deleteFavoriteWallpaper({
+      id: args.wallpaperId
+    })
+  } catch (error) {
+    throw new Error('Favorite Wallpaper Not Found')
+  }
   return deletedFavoriteWallpaper
 }
 

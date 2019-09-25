@@ -1,10 +1,10 @@
 // Mutations
-import * as userMutationOperations from './mutation/User'
-import * as favoriteWallpapersMutationOperations from './mutation/FavoriteWallpaper'
+import * as userMutationOperations from './mutation/user'
+import * as favoriteWallpapersMutationOperations from './mutation/favoriteWallpaper'
 
 // Queries
-import * as userQueryOperations from './query/User'
-import * as favoriteQueryWallpaperOperations from './query/FavoriteWallpaper'
+import * as userQueryOperations from './query/user'
+import * as favoriteQueryWallpaperOperations from './query/favoriteWallpaper'
 
 const queryOperations = {
   ...userQueryOperations,

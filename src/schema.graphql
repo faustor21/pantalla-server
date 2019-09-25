@@ -6,7 +6,8 @@ type Query {
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): User!
+  createUser(data: CreateUserInput!): AuthPayload!
+  login(data: LoginUserInput!): AuthPayload!
   updateUser(data: UpdateUserInput!, userId: ID!): User!
   deleteUser(userId: ID!): User!
   createFavoriteWallpaper(
@@ -19,7 +20,6 @@ type User {
   id: ID!
   name: String!
   email: String!
-  password: String!
   avatar: String
   favoriteWallpapers: [FavoriteWallpaper!]!
   createdAt: String!
@@ -36,6 +36,11 @@ type FavoriteWallpaper {
   updatedAt: String!
 }
 
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
 enum Source {
   PEXELS
   UNSPLASH
@@ -45,6 +50,11 @@ input CreateFavoriteWallpaperInput {
   wallpaperId: String!
   source: String!
   user: ID!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
 }
 
 input CreateUserInput {
