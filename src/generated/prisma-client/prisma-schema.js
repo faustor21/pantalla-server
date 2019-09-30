@@ -300,6 +300,11 @@ type Query {
   node(id: ID!): Node
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 enum Source {
   PEXELS
   UNSPLASH
@@ -316,6 +321,7 @@ type User {
   email: String!
   password: String!
   avatar: String
+  role: Role!
   favoriteWallpapers(where: FavoriteWallpaperWhereInput, orderBy: FavoriteWallpaperOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FavoriteWallpaper!]
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -333,6 +339,7 @@ input UserCreateInput {
   email: String!
   password: String!
   avatar: String
+  role: Role
   favoriteWallpapers: FavoriteWallpaperCreateManyWithoutUserInput
 }
 
@@ -347,6 +354,7 @@ input UserCreateWithoutFavoriteWallpapersInput {
   email: String!
   password: String!
   avatar: String
+  role: Role
 }
 
 type UserEdge {
@@ -365,6 +373,8 @@ enum UserOrderByInput {
   password_DESC
   avatar_ASC
   avatar_DESC
+  role_ASC
+  role_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -377,6 +387,7 @@ type UserPreviousValues {
   email: String!
   password: String!
   avatar: String
+  role: Role!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -404,6 +415,7 @@ input UserUpdateInput {
   email: String
   password: String
   avatar: String
+  role: Role
   favoriteWallpapers: FavoriteWallpaperUpdateManyWithoutUserInput
 }
 
@@ -412,6 +424,7 @@ input UserUpdateManyMutationInput {
   email: String
   password: String
   avatar: String
+  role: Role
 }
 
 input UserUpdateOneRequiredWithoutFavoriteWallpapersInput {
@@ -426,6 +439,7 @@ input UserUpdateWithoutFavoriteWallpapersDataInput {
   email: String
   password: String
   avatar: String
+  role: Role
 }
 
 input UserUpsertWithoutFavoriteWallpapersInput {
@@ -504,6 +518,10 @@ input UserWhereInput {
   avatar_not_starts_with: String
   avatar_ends_with: String
   avatar_not_ends_with: String
+  role: Role
+  role_not: Role
+  role_in: [Role!]
+  role_not_in: [Role!]
   favoriteWallpapers_every: FavoriteWallpaperWhereInput
   favoriteWallpapers_some: FavoriteWallpaperWhereInput
   favoriteWallpapers_none: FavoriteWallpaperWhereInput

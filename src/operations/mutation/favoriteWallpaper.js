@@ -1,8 +1,12 @@
-const createFavoriteWallpaper = async (parent, { data }, { prisma }, info) => {
-  const { user: userId } = data
+const createFavoriteWallpaper = async (
+  parent,
+  { data: { source, wallpaperId } },
+  { userId, prisma },
+  info
+) => {
   const favoriteWallpaper = await prisma.createFavoriteWallpaper({
-    source: data.source,
-    wallpaperId: data.wallpaperId,
+    source,
+    wallpaperId,
     user: {
       connect: {
         id: userId
@@ -17,7 +21,13 @@ const deleteFavoriteWallpaper = async (parent, args, { prisma }, info) => {
   let deletedFavoriteWallpaper
   try {
     deletedFavoriteWallpaper = await prisma.deleteFavoriteWallpaper({
-      id: args.wallpaperId
+      id: args.favoriteWallpaperId
+      // This is being handle by the permissions
+      // where: {
+      //   user: {
+      //     id: userId
+      //   }
+      // }
     })
   } catch (error) {
     throw new Error('Favorite Wallpaper Not Found')

@@ -150,6 +150,8 @@ export interface ClientConstructor<T> {
 
 export type Source = "PEXELS" | "UNSPLASH";
 
+export type Role = "ADMIN" | "USER";
+
 export type FavoriteWallpaperOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -173,6 +175,8 @@ export type UserOrderByInput =
   | "password_DESC"
   | "avatar_ASC"
   | "avatar_DESC"
+  | "role_ASC"
+  | "role_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -310,6 +314,10 @@ export interface UserWhereInput {
   avatar_not_starts_with?: Maybe<String>;
   avatar_ends_with?: Maybe<String>;
   avatar_not_ends_with?: Maybe<String>;
+  role?: Maybe<Role>;
+  role_not?: Maybe<Role>;
+  role_in?: Maybe<Role[] | Role>;
+  role_not_in?: Maybe<Role[] | Role>;
   favoriteWallpapers_every?: Maybe<FavoriteWallpaperWhereInput>;
   favoriteWallpapers_some?: Maybe<FavoriteWallpaperWhereInput>;
   favoriteWallpapers_none?: Maybe<FavoriteWallpaperWhereInput>;
@@ -357,6 +365,7 @@ export interface UserCreateWithoutFavoriteWallpapersInput {
   email: String;
   password: String;
   avatar?: Maybe<String>;
+  role?: Maybe<Role>;
 }
 
 export interface FavoriteWallpaperUpdateInput {
@@ -377,6 +386,7 @@ export interface UserUpdateWithoutFavoriteWallpapersDataInput {
   email?: Maybe<String>;
   password?: Maybe<String>;
   avatar?: Maybe<String>;
+  role?: Maybe<Role>;
 }
 
 export interface UserUpsertWithoutFavoriteWallpapersInput {
@@ -395,6 +405,7 @@ export interface UserCreateInput {
   email: String;
   password: String;
   avatar?: Maybe<String>;
+  role?: Maybe<Role>;
   favoriteWallpapers?: Maybe<FavoriteWallpaperCreateManyWithoutUserInput>;
 }
 
@@ -419,6 +430,7 @@ export interface UserUpdateInput {
   email?: Maybe<String>;
   password?: Maybe<String>;
   avatar?: Maybe<String>;
+  role?: Maybe<Role>;
   favoriteWallpapers?: Maybe<FavoriteWallpaperUpdateManyWithoutUserInput>;
 }
 
@@ -547,6 +559,7 @@ export interface UserUpdateManyMutationInput {
   email?: Maybe<String>;
   password?: Maybe<String>;
   avatar?: Maybe<String>;
+  role?: Maybe<Role>;
 }
 
 export interface FavoriteWallpaperSubscriptionWhereInput {
@@ -631,6 +644,7 @@ export interface User {
   email: String;
   password: String;
   avatar?: String;
+  role: Role;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -641,6 +655,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   email: () => Promise<String>;
   password: () => Promise<String>;
   avatar: () => Promise<String>;
+  role: () => Promise<Role>;
   favoriteWallpapers: <T = FragmentableArray<FavoriteWallpaper>>(args?: {
     where?: FavoriteWallpaperWhereInput;
     orderBy?: FavoriteWallpaperOrderByInput;
@@ -662,6 +677,7 @@ export interface UserSubscription
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   avatar: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<Role>>;
   favoriteWallpapers: <
     T = Promise<AsyncIterator<FavoriteWallpaperSubscription>>
   >(args?: {
@@ -685,6 +701,7 @@ export interface UserNullablePromise
   email: () => Promise<String>;
   password: () => Promise<String>;
   avatar: () => Promise<String>;
+  role: () => Promise<Role>;
   favoriteWallpapers: <T = FragmentableArray<FavoriteWallpaper>>(args?: {
     where?: FavoriteWallpaperWhereInput;
     orderBy?: FavoriteWallpaperOrderByInput;
@@ -931,6 +948,7 @@ export interface UserPreviousValues {
   email: String;
   password: String;
   avatar?: String;
+  role: Role;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -943,6 +961,7 @@ export interface UserPreviousValuesPromise
   email: () => Promise<String>;
   password: () => Promise<String>;
   avatar: () => Promise<String>;
+  role: () => Promise<Role>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -955,6 +974,7 @@ export interface UserPreviousValuesSubscription
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   avatar: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<Role>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1003,6 +1023,10 @@ export const models: Model[] = [
   },
   {
     name: "FavoriteWallpaper",
+    embedded: false
+  },
+  {
+    name: "Role",
     embedded: false
   },
   {

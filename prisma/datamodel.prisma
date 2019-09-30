@@ -4,19 +4,26 @@ type User {
   email: String! @unique
   password: String!
   avatar: String
-  favoriteWallpapers: [FavoriteWallpaper!]! @relation(name: "FavWallpaperToUser", onDelete: CASCADE)
+  role: Role! @default(value: USER)
+  favoriteWallpapers: [FavoriteWallpaper!]!
+    @relation(name: "FavWallpaperToUser", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt 
+  updatedAt: DateTime! @updatedAt
 }
 
 # User's favorites wallpapers
 type FavoriteWallpaper {
   id: ID! @id
-  wallpaperId:  String!  # This is the wallpaper's id given by the source, not the local id
-  source: Source! 
+  wallpaperId: String! # This is the wallpaper's id given by the source, not the local id
+  source: Source!
   user: User! @relation(name: "FavWallpaperToUser")
   createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt 
+  updatedAt: DateTime! @updatedAt
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 enum Source {

@@ -3,6 +3,7 @@ type Query {
   user(userId: ID!): User!
   favoriteWallpapers: [FavoriteWallpaper!]!
   favoriteWallpaper(favoriteWallpaperId: ID!): FavoriteWallpaper!
+  getAllFavoriteWallpapers: [FavoriteWallpaper!]!
 }
 
 type Mutation {
@@ -13,7 +14,7 @@ type Mutation {
   createFavoriteWallpaper(
     data: CreateFavoriteWallpaperInput!
   ): FavoriteWallpaper!
-  deleteFavoriteWallpaper(wallpaperId: ID!): FavoriteWallpaper!
+  deleteFavoriteWallpaper(favoriteWallpaperId: ID!): FavoriteWallpaper!
 }
 
 type User {
@@ -49,7 +50,6 @@ enum Source {
 input CreateFavoriteWallpaperInput {
   wallpaperId: String!
   source: String!
-  user: ID!
 }
 
 input LoginUserInput {

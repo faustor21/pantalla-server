@@ -6,6 +6,8 @@ export default async (resolve, parent, args, context, info) => {
   try {
     const [, token] = headers.authorization.split(' ')
     jwt.verify(token, process.env.JWT_SECRET)
+    // Add the user's id so it can be access everywhere
+    context.userId = jwt.decode(token).userId
   } catch (e) {
     return new AuthenticationError('Not authorized')
   }
