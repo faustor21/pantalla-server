@@ -2,7 +2,7 @@
 
 ## A background chooser application for Linux
 
-### This backend uses mainly the fallowing technologies
+### This backend mainly uses the following technologies
 
 - [Node.js](https://nodejs.org/en/)
 - [PostgreSQL](https://www.postgresql.org/)
