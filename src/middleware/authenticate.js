@@ -1,8 +1,10 @@
 import { AuthenticationError } from 'apollo-server-core'
 
 import { verifyDecodeJWTToken } from '../utils/security/token'
+import errors from '../errors'
 
 export default async (resolve, parent, args, context, info) => {
+  const { tokenExpiredError } = errors.authentication
   const { headers } = context.request.request
   try {
     const [, token] = headers.authorization.split(' ')
@@ -10,8 +12,8 @@ export default async (resolve, parent, args, context, info) => {
     context.userId = verifyDecodeJWTToken(token)
   } catch (e) {
     if (e.name === 'TokenExpiredError') {
-      const authError = new AuthenticationError('Token Has Expired')
-      authError.extensions.code = 'TokenExpiredError'
+      const authError = new AuthenticationError(tokenExpiredError.message)
+      authError.extensions.code = tokenExpiredError.code
       return authError
     }
     return new AuthenticationError('Not authorized')

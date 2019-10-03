@@ -1,9 +1,35 @@
+import { ValidationError } from 'apollo-server-core'
+
+import errors from '../../errors'
+
 const createFavoriteWallpaper = async (
-  parent,
+  _,
   { data: { source, wallpaperId } },
-  { userId, prisma },
-  info
+  { userId, prisma }
 ) => {
+  const favWallpaperExist = await prisma.$exists.favoriteWallpaper({
+    AND: [
+      {
+        source
+      },
+      {
+        wallpaperId
+      },
+      {
+        user: {
+          id: userId
+        }
+      }
+    ]
+  })
+  if (favWallpaperExist) {
+    const {
+      favoriteWallpaperExists: { message, code }
+    } = errors.validation
+    const error = new ValidationError(message)
+    error.extensions.code = code
+    throw error
+  }
   const favoriteWallpaper = await prisma.createFavoriteWallpaper({
     source,
     wallpaperId,
@@ -17,21 +43,26 @@ const createFavoriteWallpaper = async (
   return favoriteWallpaper
 }
 
-const deleteFavoriteWallpaper = async (parent, args, { prisma }, info) => {
-  let deletedFavoriteWallpaper
-  try {
-    deletedFavoriteWallpaper = await prisma.deleteFavoriteWallpaper({
-      id: args.favoriteWallpaperId
-      // This is being handle by the permissions
-      // where: {
-      //   user: {
-      //     id: userId
-      //   }
-      // }
-    })
-  } catch (error) {
-    throw new Error('Favorite Wallpaper Not Found')
+const deleteFavoriteWallpaper = async (
+  _,
+  { favoriteWallpaperId },
+  { prisma }
+) => {
+  const favWallpaperFound = await prisma.$exists.favoriteWallpaper({
+    id: favoriteWallpaperId
+  })
+  if (!favWallpaperFound) {
+    const {
+      favoriteWallpaperNotFound: { message, code }
+    } = errors.validation
+    const error = ValidationError(message)
+    error.extensions.code = code
+    throw error
   }
+
+  const deletedFavoriteWallpaper = await prisma.deleteFavoriteWallpaper({
+    id: favoriteWallpaperId
+  })
   return deletedFavoriteWallpaper
 }
 

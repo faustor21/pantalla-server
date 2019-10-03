@@ -1,15 +1,24 @@
 import bcrypt from 'bcryptjs'
+import { ValidationError } from 'apollo-server-core'
 
 import hashPassword from '../../utils/security/hashPassword'
 import { generateToken, renewAccessToken } from '../../utils/security/token'
+import errors from '../../errors'
 
 const createUser = async (parent, args, { prisma }, info) => {
   const { password: passwordRaw } = args.data
   const password = await hashPassword(passwordRaw)
-  const isEmailTaken = await prisma.user({
+  const isEmailTaken = await prisma.$exists.user({
     email: args.data.email
   })
-  if (isEmailTaken) throw new Error('E-mail is already taken')
+  if (isEmailTaken) {
+    const {
+      userEmailExists: { message, code }
+    } = errors.validation
+    const error = new ValidationError(message)
+    error.extensions.code = code
+    throw error
+  }
 
   const user = await prisma.createUser({
     ...args.data,
@@ -21,22 +30,35 @@ const createUser = async (parent, args, { prisma }, info) => {
 
 const login = async (parent, args, { prisma }) => {
   const { email, password } = args.data
-  const errorMsg = 'E-mail or password incorrect'
   const user = await prisma.user({ email })
-  if (!user) throw new Error(errorMsg)
+
+  const {
+    emailPasswordIncorrect: { message, code }
+  } = errors.validation
+  const error = new ValidationError(message)
+  error.extensions.code = code
+
+  if (!user) throw error
   const valid = await bcrypt.compare(password, user.password)
-  if (!valid) throw new Error(errorMsg)
+  if (!valid) throw error
 
   return generateToken(prisma, user.id)
 }
 
 const renewUserAccessToken = async (parent, { refreshToken }, { prisma }) => {
-  console.log('renewUserAccessToken: refreshToken', refreshToken)
   return renewAccessToken(prisma, refreshToken)
 }
 
-const updateUser = async (parent, args, { prisma }, info) => {
-  const { data, userId } = args
+const updateUser = async (parent, { data, userId }, { prisma }, info) => {
+  const userExists = await prisma.$exists.user({ id: userId })
+  if (!userExists) {
+    const {
+      userNotFound: { message, code }
+    } = errors.validation
+    const error = new ValidationError(message)
+    error.extensions.code = code
+    throw error
+  }
   const user = await prisma.updateUser({
     data,
     where: {
@@ -46,13 +68,18 @@ const updateUser = async (parent, args, { prisma }, info) => {
   return user
 }
 
-const deleteUser = async (parent, args, { prisma }, info) => {
-  let user
-  try {
-    user = await prisma.deleteUser({ id: args.userId })
-  } catch (e) {
-    throw new Error('User not found')
+const deleteUser = async (parent, { userId }, { prisma }, info) => {
+  const userExists = await prisma.$exists.user({ id: userId })
+  if (!userExists) {
+    const {
+      userNotFound: { message, code }
+    } = errors.validation
+    const error = new ValidationError(message)
+    error.extensions.code = code
+    throw error
   }
+  const user = await prisma.deleteUser({ id: userId })
+
   return user
 }
 

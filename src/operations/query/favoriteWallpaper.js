@@ -1,8 +1,29 @@
-const favoriteWallpaper = async (parent, args, { userId, prisma }, info) => {
-  const favoriteWallpaper = await prisma.favoriteWallpaper({
-    id: args.favoriteWallpaperId
+import { ValidationError } from 'apollo-server-core'
+
+import errors from '../../errors'
+
+const favoriteWallpaper = async (
+  parent,
+  { favoriteWallpaperId },
+  { userId, prisma },
+  info
+) => {
+  const favWallpaperFound = await prisma.$exists.favoriteWallpaper({
+    id: favoriteWallpaperId
   })
-  if (!favoriteWallpaper) throw new Error('Favorite Wallpaper Not Found')
+  if (!favWallpaperFound) {
+    const {
+      favoriteWallpaperNotFound: { message, code }
+    } = errors.validation
+    const error = new ValidationError(message)
+    error.extensions.code = code
+    throw error
+  }
+
+  const favoriteWallpaper = await prisma.favoriteWallpaper({
+    id: favoriteWallpaperId
+  })
+
   return favoriteWallpaper
 }
 

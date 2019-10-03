@@ -3,12 +3,9 @@ import uuid from 'uuid/v4'
 import moment from 'moment'
 import { ForbiddenError } from 'apollo-server-core'
 
-const errors = {
-  invalidRefreshTokenError: {
-    message: 'Invalid or revoked refresh token',
-    code: 'InvalidRefreshToken'
-  }
-}
+import errors from '../../errors'
+
+const { forbidden } = errors
 
 /**
  * Verify and decodes a given JWT token
@@ -47,10 +44,11 @@ const generateToken = (prisma, userId) => {
 const renewAccessToken = async (prisma, refreshToken) => {
   const validRefreshToken = await isRefreshTokenValid(prisma, refreshToken)
   if (!validRefreshToken) {
-    const refreshTokenInvalidError = new ForbiddenError()
-    refreshTokenInvalidError.message = errors.invalidRefreshTokenError.message
+    const refreshTokenInvalidError = new ForbiddenError(
+      forbidden.invalidRefreshTokenError.message
+    )
     refreshTokenInvalidError.extensions.code =
-      errors.invalidRefreshTokenError.code
+      forbidden.invalidRefreshTokenError.code
     throw refreshTokenInvalidError
   }
 
@@ -146,7 +144,6 @@ const updateRefreshToken = async (
       refreshToken
     }
   })
-  console.log('updateRefreshToken', updateRefreshToken)
   return updatedRefreshToken
 }
 
