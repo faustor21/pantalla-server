@@ -7,6 +7,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregateRefreshToken {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -265,6 +269,12 @@ type Mutation {
   upsertFavoriteWallpaper(where: FavoriteWallpaperWhereUniqueInput!, create: FavoriteWallpaperCreateInput!, update: FavoriteWallpaperUpdateInput!): FavoriteWallpaper!
   deleteFavoriteWallpaper(where: FavoriteWallpaperWhereUniqueInput!): FavoriteWallpaper
   deleteManyFavoriteWallpapers(where: FavoriteWallpaperWhereInput): BatchPayload!
+  createRefreshToken(data: RefreshTokenCreateInput!): RefreshToken!
+  updateRefreshToken(data: RefreshTokenUpdateInput!, where: RefreshTokenWhereUniqueInput!): RefreshToken
+  updateManyRefreshTokens(data: RefreshTokenUpdateManyMutationInput!, where: RefreshTokenWhereInput): BatchPayload!
+  upsertRefreshToken(where: RefreshTokenWhereUniqueInput!, create: RefreshTokenCreateInput!, update: RefreshTokenUpdateInput!): RefreshToken!
+  deleteRefreshToken(where: RefreshTokenWhereUniqueInput!): RefreshToken
+  deleteManyRefreshTokens(where: RefreshTokenWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -294,10 +304,326 @@ type Query {
   favoriteWallpaper(where: FavoriteWallpaperWhereUniqueInput!): FavoriteWallpaper
   favoriteWallpapers(where: FavoriteWallpaperWhereInput, orderBy: FavoriteWallpaperOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FavoriteWallpaper]!
   favoriteWallpapersConnection(where: FavoriteWallpaperWhereInput, orderBy: FavoriteWallpaperOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FavoriteWallpaperConnection!
+  refreshToken(where: RefreshTokenWhereUniqueInput!): RefreshToken
+  refreshTokens(where: RefreshTokenWhereInput, orderBy: RefreshTokenOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [RefreshToken]!
+  refreshTokensConnection(where: RefreshTokenWhereInput, orderBy: RefreshTokenOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RefreshTokenConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
+}
+
+type RefreshToken {
+  id: ID!
+  user: User!
+  refreshToken: String!
+  accessToken: String!
+  expiresIn: String!
+  revoke: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type RefreshTokenConnection {
+  pageInfo: PageInfo!
+  edges: [RefreshTokenEdge]!
+  aggregate: AggregateRefreshToken!
+}
+
+input RefreshTokenCreateInput {
+  id: ID
+  user: UserCreateOneWithoutRefreshTokensInput!
+  refreshToken: String!
+  accessToken: String!
+  expiresIn: String!
+  revoke: Boolean
+}
+
+input RefreshTokenCreateManyWithoutUserInput {
+  create: [RefreshTokenCreateWithoutUserInput!]
+  connect: [RefreshTokenWhereUniqueInput!]
+}
+
+input RefreshTokenCreateWithoutUserInput {
+  id: ID
+  refreshToken: String!
+  accessToken: String!
+  expiresIn: String!
+  revoke: Boolean
+}
+
+type RefreshTokenEdge {
+  node: RefreshToken!
+  cursor: String!
+}
+
+enum RefreshTokenOrderByInput {
+  id_ASC
+  id_DESC
+  refreshToken_ASC
+  refreshToken_DESC
+  accessToken_ASC
+  accessToken_DESC
+  expiresIn_ASC
+  expiresIn_DESC
+  revoke_ASC
+  revoke_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type RefreshTokenPreviousValues {
+  id: ID!
+  refreshToken: String!
+  accessToken: String!
+  expiresIn: String!
+  revoke: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input RefreshTokenScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  refreshToken: String
+  refreshToken_not: String
+  refreshToken_in: [String!]
+  refreshToken_not_in: [String!]
+  refreshToken_lt: String
+  refreshToken_lte: String
+  refreshToken_gt: String
+  refreshToken_gte: String
+  refreshToken_contains: String
+  refreshToken_not_contains: String
+  refreshToken_starts_with: String
+  refreshToken_not_starts_with: String
+  refreshToken_ends_with: String
+  refreshToken_not_ends_with: String
+  accessToken: String
+  accessToken_not: String
+  accessToken_in: [String!]
+  accessToken_not_in: [String!]
+  accessToken_lt: String
+  accessToken_lte: String
+  accessToken_gt: String
+  accessToken_gte: String
+  accessToken_contains: String
+  accessToken_not_contains: String
+  accessToken_starts_with: String
+  accessToken_not_starts_with: String
+  accessToken_ends_with: String
+  accessToken_not_ends_with: String
+  expiresIn: String
+  expiresIn_not: String
+  expiresIn_in: [String!]
+  expiresIn_not_in: [String!]
+  expiresIn_lt: String
+  expiresIn_lte: String
+  expiresIn_gt: String
+  expiresIn_gte: String
+  expiresIn_contains: String
+  expiresIn_not_contains: String
+  expiresIn_starts_with: String
+  expiresIn_not_starts_with: String
+  expiresIn_ends_with: String
+  expiresIn_not_ends_with: String
+  revoke: Boolean
+  revoke_not: Boolean
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [RefreshTokenScalarWhereInput!]
+  OR: [RefreshTokenScalarWhereInput!]
+  NOT: [RefreshTokenScalarWhereInput!]
+}
+
+type RefreshTokenSubscriptionPayload {
+  mutation: MutationType!
+  node: RefreshToken
+  updatedFields: [String!]
+  previousValues: RefreshTokenPreviousValues
+}
+
+input RefreshTokenSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RefreshTokenWhereInput
+  AND: [RefreshTokenSubscriptionWhereInput!]
+  OR: [RefreshTokenSubscriptionWhereInput!]
+  NOT: [RefreshTokenSubscriptionWhereInput!]
+}
+
+input RefreshTokenUpdateInput {
+  user: UserUpdateOneRequiredWithoutRefreshTokensInput
+  refreshToken: String
+  accessToken: String
+  expiresIn: String
+  revoke: Boolean
+}
+
+input RefreshTokenUpdateManyDataInput {
+  refreshToken: String
+  accessToken: String
+  expiresIn: String
+  revoke: Boolean
+}
+
+input RefreshTokenUpdateManyMutationInput {
+  refreshToken: String
+  accessToken: String
+  expiresIn: String
+  revoke: Boolean
+}
+
+input RefreshTokenUpdateManyWithoutUserInput {
+  create: [RefreshTokenCreateWithoutUserInput!]
+  delete: [RefreshTokenWhereUniqueInput!]
+  connect: [RefreshTokenWhereUniqueInput!]
+  set: [RefreshTokenWhereUniqueInput!]
+  disconnect: [RefreshTokenWhereUniqueInput!]
+  update: [RefreshTokenUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [RefreshTokenUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [RefreshTokenScalarWhereInput!]
+  updateMany: [RefreshTokenUpdateManyWithWhereNestedInput!]
+}
+
+input RefreshTokenUpdateManyWithWhereNestedInput {
+  where: RefreshTokenScalarWhereInput!
+  data: RefreshTokenUpdateManyDataInput!
+}
+
+input RefreshTokenUpdateWithoutUserDataInput {
+  refreshToken: String
+  accessToken: String
+  expiresIn: String
+  revoke: Boolean
+}
+
+input RefreshTokenUpdateWithWhereUniqueWithoutUserInput {
+  where: RefreshTokenWhereUniqueInput!
+  data: RefreshTokenUpdateWithoutUserDataInput!
+}
+
+input RefreshTokenUpsertWithWhereUniqueWithoutUserInput {
+  where: RefreshTokenWhereUniqueInput!
+  update: RefreshTokenUpdateWithoutUserDataInput!
+  create: RefreshTokenCreateWithoutUserInput!
+}
+
+input RefreshTokenWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  user: UserWhereInput
+  refreshToken: String
+  refreshToken_not: String
+  refreshToken_in: [String!]
+  refreshToken_not_in: [String!]
+  refreshToken_lt: String
+  refreshToken_lte: String
+  refreshToken_gt: String
+  refreshToken_gte: String
+  refreshToken_contains: String
+  refreshToken_not_contains: String
+  refreshToken_starts_with: String
+  refreshToken_not_starts_with: String
+  refreshToken_ends_with: String
+  refreshToken_not_ends_with: String
+  accessToken: String
+  accessToken_not: String
+  accessToken_in: [String!]
+  accessToken_not_in: [String!]
+  accessToken_lt: String
+  accessToken_lte: String
+  accessToken_gt: String
+  accessToken_gte: String
+  accessToken_contains: String
+  accessToken_not_contains: String
+  accessToken_starts_with: String
+  accessToken_not_starts_with: String
+  accessToken_ends_with: String
+  accessToken_not_ends_with: String
+  expiresIn: String
+  expiresIn_not: String
+  expiresIn_in: [String!]
+  expiresIn_not_in: [String!]
+  expiresIn_lt: String
+  expiresIn_lte: String
+  expiresIn_gt: String
+  expiresIn_gte: String
+  expiresIn_contains: String
+  expiresIn_not_contains: String
+  expiresIn_starts_with: String
+  expiresIn_not_starts_with: String
+  expiresIn_ends_with: String
+  expiresIn_not_ends_with: String
+  revoke: Boolean
+  revoke_not: Boolean
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [RefreshTokenWhereInput!]
+  OR: [RefreshTokenWhereInput!]
+  NOT: [RefreshTokenWhereInput!]
+}
+
+input RefreshTokenWhereUniqueInput {
+  id: ID
+  refreshToken: String
+  accessToken: String
 }
 
 enum Role {
@@ -312,6 +638,7 @@ enum Source {
 
 type Subscription {
   favoriteWallpaper(where: FavoriteWallpaperSubscriptionWhereInput): FavoriteWallpaperSubscriptionPayload
+  refreshToken(where: RefreshTokenSubscriptionWhereInput): RefreshTokenSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -323,6 +650,7 @@ type User {
   avatar: String
   role: Role!
   favoriteWallpapers(where: FavoriteWallpaperWhereInput, orderBy: FavoriteWallpaperOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FavoriteWallpaper!]
+  refreshTokens(where: RefreshTokenWhereInput, orderBy: RefreshTokenOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [RefreshToken!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -341,10 +669,16 @@ input UserCreateInput {
   avatar: String
   role: Role
   favoriteWallpapers: FavoriteWallpaperCreateManyWithoutUserInput
+  refreshTokens: RefreshTokenCreateManyWithoutUserInput
 }
 
 input UserCreateOneWithoutFavoriteWallpapersInput {
   create: UserCreateWithoutFavoriteWallpapersInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutRefreshTokensInput {
+  create: UserCreateWithoutRefreshTokensInput
   connect: UserWhereUniqueInput
 }
 
@@ -355,6 +689,17 @@ input UserCreateWithoutFavoriteWallpapersInput {
   password: String!
   avatar: String
   role: Role
+  refreshTokens: RefreshTokenCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutRefreshTokensInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  avatar: String
+  role: Role
+  favoriteWallpapers: FavoriteWallpaperCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -417,6 +762,7 @@ input UserUpdateInput {
   avatar: String
   role: Role
   favoriteWallpapers: FavoriteWallpaperUpdateManyWithoutUserInput
+  refreshTokens: RefreshTokenUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -434,17 +780,39 @@ input UserUpdateOneRequiredWithoutFavoriteWallpapersInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateOneRequiredWithoutRefreshTokensInput {
+  create: UserCreateWithoutRefreshTokensInput
+  update: UserUpdateWithoutRefreshTokensDataInput
+  upsert: UserUpsertWithoutRefreshTokensInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateWithoutFavoriteWallpapersDataInput {
   name: String
   email: String
   password: String
   avatar: String
   role: Role
+  refreshTokens: RefreshTokenUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutRefreshTokensDataInput {
+  name: String
+  email: String
+  password: String
+  avatar: String
+  role: Role
+  favoriteWallpapers: FavoriteWallpaperUpdateManyWithoutUserInput
 }
 
 input UserUpsertWithoutFavoriteWallpapersInput {
   update: UserUpdateWithoutFavoriteWallpapersDataInput!
   create: UserCreateWithoutFavoriteWallpapersInput!
+}
+
+input UserUpsertWithoutRefreshTokensInput {
+  update: UserUpdateWithoutRefreshTokensDataInput!
+  create: UserCreateWithoutRefreshTokensInput!
 }
 
 input UserWhereInput {
@@ -525,6 +893,9 @@ input UserWhereInput {
   favoriteWallpapers_every: FavoriteWallpaperWhereInput
   favoriteWallpapers_some: FavoriteWallpaperWhereInput
   favoriteWallpapers_none: FavoriteWallpaperWhereInput
+  refreshTokens_every: RefreshTokenWhereInput
+  refreshTokens_some: RefreshTokenWhereInput
+  refreshTokens_none: RefreshTokenWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

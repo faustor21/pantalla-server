@@ -8,7 +8,8 @@ import applyMiddlewareTo from './utils/applyMiddlewareTo'
 
 const authMiddleware = applyMiddlewareTo(resolvers, authenticate, [
   'createUser',
-  'login'
+  'login',
+  'renewUserAccessToken'
 ])
 
 const server = new GraphQLServer({

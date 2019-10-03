@@ -1,2 +1,4 @@
 node_modules/
+playground/
 *.env
+auth_flow-es.txt

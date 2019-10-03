@@ -9,6 +9,7 @@ type Query {
 type Mutation {
   createUser(data: CreateUserInput!): AuthPayload!
   login(data: LoginUserInput!): AuthPayload!
+  renewUserAccessToken(refreshToken: String!): AuthPayload!
   updateUser(data: UpdateUserInput!, userId: ID!): User!
   deleteUser(userId: ID!): User!
   createFavoriteWallpaper(
@@ -38,8 +39,8 @@ type FavoriteWallpaper {
 }
 
 type AuthPayload {
-  token: String!
-  user: User!
+  accessToken: String!
+  refreshToken: String!
 }
 
 enum Source {

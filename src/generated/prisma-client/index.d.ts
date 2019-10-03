@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   favoriteWallpaper: (where?: FavoriteWallpaperWhereInput) => Promise<boolean>;
+  refreshToken: (where?: RefreshTokenWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -60,6 +61,27 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => FavoriteWallpaperConnectionPromise;
+  refreshToken: (
+    where: RefreshTokenWhereUniqueInput
+  ) => RefreshTokenNullablePromise;
+  refreshTokens: (args?: {
+    where?: RefreshTokenWhereInput;
+    orderBy?: RefreshTokenOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<RefreshToken>;
+  refreshTokensConnection: (args?: {
+    where?: RefreshTokenWhereInput;
+    orderBy?: RefreshTokenOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => RefreshTokenConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -107,6 +129,26 @@ export interface Prisma {
   deleteManyFavoriteWallpapers: (
     where?: FavoriteWallpaperWhereInput
   ) => BatchPayloadPromise;
+  createRefreshToken: (data: RefreshTokenCreateInput) => RefreshTokenPromise;
+  updateRefreshToken: (args: {
+    data: RefreshTokenUpdateInput;
+    where: RefreshTokenWhereUniqueInput;
+  }) => RefreshTokenPromise;
+  updateManyRefreshTokens: (args: {
+    data: RefreshTokenUpdateManyMutationInput;
+    where?: RefreshTokenWhereInput;
+  }) => BatchPayloadPromise;
+  upsertRefreshToken: (args: {
+    where: RefreshTokenWhereUniqueInput;
+    create: RefreshTokenCreateInput;
+    update: RefreshTokenUpdateInput;
+  }) => RefreshTokenPromise;
+  deleteRefreshToken: (
+    where: RefreshTokenWhereUniqueInput
+  ) => RefreshTokenPromise;
+  deleteManyRefreshTokens: (
+    where?: RefreshTokenWhereInput
+  ) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -135,6 +177,9 @@ export interface Subscription {
   favoriteWallpaper: (
     where?: FavoriteWallpaperSubscriptionWhereInput
   ) => FavoriteWallpaperSubscriptionPayloadSubscription;
+  refreshToken: (
+    where?: RefreshTokenSubscriptionWhereInput
+  ) => RefreshTokenSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -159,6 +204,22 @@ export type FavoriteWallpaperOrderByInput =
   | "wallpaperId_DESC"
   | "source_ASC"
   | "source_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type RefreshTokenOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "refreshToken_ASC"
+  | "refreshToken_DESC"
+  | "accessToken_ASC"
+  | "accessToken_DESC"
+  | "expiresIn_ASC"
+  | "expiresIn_DESC"
+  | "revoke_ASC"
+  | "revoke_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -321,6 +382,9 @@ export interface UserWhereInput {
   favoriteWallpapers_every?: Maybe<FavoriteWallpaperWhereInput>;
   favoriteWallpapers_some?: Maybe<FavoriteWallpaperWhereInput>;
   favoriteWallpapers_none?: Maybe<FavoriteWallpaperWhereInput>;
+  refreshTokens_every?: Maybe<RefreshTokenWhereInput>;
+  refreshTokens_some?: Maybe<RefreshTokenWhereInput>;
+  refreshTokens_none?: Maybe<RefreshTokenWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -341,6 +405,93 @@ export interface UserWhereInput {
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
+
+export interface RefreshTokenWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  user?: Maybe<UserWhereInput>;
+  refreshToken?: Maybe<String>;
+  refreshToken_not?: Maybe<String>;
+  refreshToken_in?: Maybe<String[] | String>;
+  refreshToken_not_in?: Maybe<String[] | String>;
+  refreshToken_lt?: Maybe<String>;
+  refreshToken_lte?: Maybe<String>;
+  refreshToken_gt?: Maybe<String>;
+  refreshToken_gte?: Maybe<String>;
+  refreshToken_contains?: Maybe<String>;
+  refreshToken_not_contains?: Maybe<String>;
+  refreshToken_starts_with?: Maybe<String>;
+  refreshToken_not_starts_with?: Maybe<String>;
+  refreshToken_ends_with?: Maybe<String>;
+  refreshToken_not_ends_with?: Maybe<String>;
+  accessToken?: Maybe<String>;
+  accessToken_not?: Maybe<String>;
+  accessToken_in?: Maybe<String[] | String>;
+  accessToken_not_in?: Maybe<String[] | String>;
+  accessToken_lt?: Maybe<String>;
+  accessToken_lte?: Maybe<String>;
+  accessToken_gt?: Maybe<String>;
+  accessToken_gte?: Maybe<String>;
+  accessToken_contains?: Maybe<String>;
+  accessToken_not_contains?: Maybe<String>;
+  accessToken_starts_with?: Maybe<String>;
+  accessToken_not_starts_with?: Maybe<String>;
+  accessToken_ends_with?: Maybe<String>;
+  accessToken_not_ends_with?: Maybe<String>;
+  expiresIn?: Maybe<String>;
+  expiresIn_not?: Maybe<String>;
+  expiresIn_in?: Maybe<String[] | String>;
+  expiresIn_not_in?: Maybe<String[] | String>;
+  expiresIn_lt?: Maybe<String>;
+  expiresIn_lte?: Maybe<String>;
+  expiresIn_gt?: Maybe<String>;
+  expiresIn_gte?: Maybe<String>;
+  expiresIn_contains?: Maybe<String>;
+  expiresIn_not_contains?: Maybe<String>;
+  expiresIn_starts_with?: Maybe<String>;
+  expiresIn_not_starts_with?: Maybe<String>;
+  expiresIn_ends_with?: Maybe<String>;
+  expiresIn_not_ends_with?: Maybe<String>;
+  revoke?: Maybe<Boolean>;
+  revoke_not?: Maybe<Boolean>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<RefreshTokenWhereInput[] | RefreshTokenWhereInput>;
+  OR?: Maybe<RefreshTokenWhereInput[] | RefreshTokenWhereInput>;
+  NOT?: Maybe<RefreshTokenWhereInput[] | RefreshTokenWhereInput>;
+}
+
+export type RefreshTokenWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  refreshToken?: Maybe<String>;
+  accessToken?: Maybe<String>;
+}>;
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -366,6 +517,24 @@ export interface UserCreateWithoutFavoriteWallpapersInput {
   password: String;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
+  refreshTokens?: Maybe<RefreshTokenCreateManyWithoutUserInput>;
+}
+
+export interface RefreshTokenCreateManyWithoutUserInput {
+  create?: Maybe<
+    RefreshTokenCreateWithoutUserInput[] | RefreshTokenCreateWithoutUserInput
+  >;
+  connect?: Maybe<
+    RefreshTokenWhereUniqueInput[] | RefreshTokenWhereUniqueInput
+  >;
+}
+
+export interface RefreshTokenCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  refreshToken: String;
+  accessToken: String;
+  expiresIn: String;
+  revoke?: Maybe<Boolean>;
 }
 
 export interface FavoriteWallpaperUpdateInput {
@@ -387,6 +556,146 @@ export interface UserUpdateWithoutFavoriteWallpapersDataInput {
   password?: Maybe<String>;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
+  refreshTokens?: Maybe<RefreshTokenUpdateManyWithoutUserInput>;
+}
+
+export interface RefreshTokenUpdateManyWithoutUserInput {
+  create?: Maybe<
+    RefreshTokenCreateWithoutUserInput[] | RefreshTokenCreateWithoutUserInput
+  >;
+  delete?: Maybe<RefreshTokenWhereUniqueInput[] | RefreshTokenWhereUniqueInput>;
+  connect?: Maybe<
+    RefreshTokenWhereUniqueInput[] | RefreshTokenWhereUniqueInput
+  >;
+  set?: Maybe<RefreshTokenWhereUniqueInput[] | RefreshTokenWhereUniqueInput>;
+  disconnect?: Maybe<
+    RefreshTokenWhereUniqueInput[] | RefreshTokenWhereUniqueInput
+  >;
+  update?: Maybe<
+    | RefreshTokenUpdateWithWhereUniqueWithoutUserInput[]
+    | RefreshTokenUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | RefreshTokenUpsertWithWhereUniqueWithoutUserInput[]
+    | RefreshTokenUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    RefreshTokenScalarWhereInput[] | RefreshTokenScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | RefreshTokenUpdateManyWithWhereNestedInput[]
+    | RefreshTokenUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface RefreshTokenUpdateWithWhereUniqueWithoutUserInput {
+  where: RefreshTokenWhereUniqueInput;
+  data: RefreshTokenUpdateWithoutUserDataInput;
+}
+
+export interface RefreshTokenUpdateWithoutUserDataInput {
+  refreshToken?: Maybe<String>;
+  accessToken?: Maybe<String>;
+  expiresIn?: Maybe<String>;
+  revoke?: Maybe<Boolean>;
+}
+
+export interface RefreshTokenUpsertWithWhereUniqueWithoutUserInput {
+  where: RefreshTokenWhereUniqueInput;
+  update: RefreshTokenUpdateWithoutUserDataInput;
+  create: RefreshTokenCreateWithoutUserInput;
+}
+
+export interface RefreshTokenScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  refreshToken?: Maybe<String>;
+  refreshToken_not?: Maybe<String>;
+  refreshToken_in?: Maybe<String[] | String>;
+  refreshToken_not_in?: Maybe<String[] | String>;
+  refreshToken_lt?: Maybe<String>;
+  refreshToken_lte?: Maybe<String>;
+  refreshToken_gt?: Maybe<String>;
+  refreshToken_gte?: Maybe<String>;
+  refreshToken_contains?: Maybe<String>;
+  refreshToken_not_contains?: Maybe<String>;
+  refreshToken_starts_with?: Maybe<String>;
+  refreshToken_not_starts_with?: Maybe<String>;
+  refreshToken_ends_with?: Maybe<String>;
+  refreshToken_not_ends_with?: Maybe<String>;
+  accessToken?: Maybe<String>;
+  accessToken_not?: Maybe<String>;
+  accessToken_in?: Maybe<String[] | String>;
+  accessToken_not_in?: Maybe<String[] | String>;
+  accessToken_lt?: Maybe<String>;
+  accessToken_lte?: Maybe<String>;
+  accessToken_gt?: Maybe<String>;
+  accessToken_gte?: Maybe<String>;
+  accessToken_contains?: Maybe<String>;
+  accessToken_not_contains?: Maybe<String>;
+  accessToken_starts_with?: Maybe<String>;
+  accessToken_not_starts_with?: Maybe<String>;
+  accessToken_ends_with?: Maybe<String>;
+  accessToken_not_ends_with?: Maybe<String>;
+  expiresIn?: Maybe<String>;
+  expiresIn_not?: Maybe<String>;
+  expiresIn_in?: Maybe<String[] | String>;
+  expiresIn_not_in?: Maybe<String[] | String>;
+  expiresIn_lt?: Maybe<String>;
+  expiresIn_lte?: Maybe<String>;
+  expiresIn_gt?: Maybe<String>;
+  expiresIn_gte?: Maybe<String>;
+  expiresIn_contains?: Maybe<String>;
+  expiresIn_not_contains?: Maybe<String>;
+  expiresIn_starts_with?: Maybe<String>;
+  expiresIn_not_starts_with?: Maybe<String>;
+  expiresIn_ends_with?: Maybe<String>;
+  expiresIn_not_ends_with?: Maybe<String>;
+  revoke?: Maybe<Boolean>;
+  revoke_not?: Maybe<Boolean>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<RefreshTokenScalarWhereInput[] | RefreshTokenScalarWhereInput>;
+  OR?: Maybe<RefreshTokenScalarWhereInput[] | RefreshTokenScalarWhereInput>;
+  NOT?: Maybe<RefreshTokenScalarWhereInput[] | RefreshTokenScalarWhereInput>;
+}
+
+export interface RefreshTokenUpdateManyWithWhereNestedInput {
+  where: RefreshTokenScalarWhereInput;
+  data: RefreshTokenUpdateManyDataInput;
+}
+
+export interface RefreshTokenUpdateManyDataInput {
+  refreshToken?: Maybe<String>;
+  accessToken?: Maybe<String>;
+  expiresIn?: Maybe<String>;
+  revoke?: Maybe<Boolean>;
 }
 
 export interface UserUpsertWithoutFavoriteWallpapersInput {
@@ -399,7 +708,21 @@ export interface FavoriteWallpaperUpdateManyMutationInput {
   source?: Maybe<Source>;
 }
 
-export interface UserCreateInput {
+export interface RefreshTokenCreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneWithoutRefreshTokensInput;
+  refreshToken: String;
+  accessToken: String;
+  expiresIn: String;
+  revoke?: Maybe<Boolean>;
+}
+
+export interface UserCreateOneWithoutRefreshTokensInput {
+  create?: Maybe<UserCreateWithoutRefreshTokensInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutRefreshTokensInput {
   id?: Maybe<ID_Input>;
   name: String;
   email: String;
@@ -425,7 +748,22 @@ export interface FavoriteWallpaperCreateWithoutUserInput {
   source: Source;
 }
 
-export interface UserUpdateInput {
+export interface RefreshTokenUpdateInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutRefreshTokensInput>;
+  refreshToken?: Maybe<String>;
+  accessToken?: Maybe<String>;
+  expiresIn?: Maybe<String>;
+  revoke?: Maybe<Boolean>;
+}
+
+export interface UserUpdateOneRequiredWithoutRefreshTokensInput {
+  create?: Maybe<UserCreateWithoutRefreshTokensInput>;
+  update?: Maybe<UserUpdateWithoutRefreshTokensDataInput>;
+  upsert?: Maybe<UserUpsertWithoutRefreshTokensInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutRefreshTokensDataInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
@@ -554,6 +892,39 @@ export interface FavoriteWallpaperUpdateManyDataInput {
   source?: Maybe<Source>;
 }
 
+export interface UserUpsertWithoutRefreshTokensInput {
+  update: UserUpdateWithoutRefreshTokensDataInput;
+  create: UserCreateWithoutRefreshTokensInput;
+}
+
+export interface RefreshTokenUpdateManyMutationInput {
+  refreshToken?: Maybe<String>;
+  accessToken?: Maybe<String>;
+  expiresIn?: Maybe<String>;
+  revoke?: Maybe<Boolean>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  email: String;
+  password: String;
+  avatar?: Maybe<String>;
+  role?: Maybe<Role>;
+  favoriteWallpapers?: Maybe<FavoriteWallpaperCreateManyWithoutUserInput>;
+  refreshTokens?: Maybe<RefreshTokenCreateManyWithoutUserInput>;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  avatar?: Maybe<String>;
+  role?: Maybe<Role>;
+  favoriteWallpapers?: Maybe<FavoriteWallpaperUpdateManyWithoutUserInput>;
+  refreshTokens?: Maybe<RefreshTokenUpdateManyWithoutUserInput>;
+}
+
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
@@ -579,6 +950,23 @@ export interface FavoriteWallpaperSubscriptionWhereInput {
   NOT?: Maybe<
     | FavoriteWallpaperSubscriptionWhereInput[]
     | FavoriteWallpaperSubscriptionWhereInput
+  >;
+}
+
+export interface RefreshTokenSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<RefreshTokenWhereInput>;
+  AND?: Maybe<
+    RefreshTokenSubscriptionWhereInput[] | RefreshTokenSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    RefreshTokenSubscriptionWhereInput[] | RefreshTokenSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    RefreshTokenSubscriptionWhereInput[] | RefreshTokenSubscriptionWhereInput
   >;
 }
 
@@ -665,6 +1053,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  refreshTokens: <T = FragmentableArray<RefreshToken>>(args?: {
+    where?: RefreshTokenWhereInput;
+    orderBy?: RefreshTokenOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -683,6 +1080,15 @@ export interface UserSubscription
   >(args?: {
     where?: FavoriteWallpaperWhereInput;
     orderBy?: FavoriteWallpaperOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  refreshTokens: <T = Promise<AsyncIterator<RefreshTokenSubscription>>>(args?: {
+    where?: RefreshTokenWhereInput;
+    orderBy?: RefreshTokenOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -711,6 +1117,64 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  refreshTokens: <T = FragmentableArray<RefreshToken>>(args?: {
+    where?: RefreshTokenWhereInput;
+    orderBy?: RefreshTokenOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface RefreshToken {
+  id: ID_Output;
+  refreshToken: String;
+  accessToken: String;
+  expiresIn: String;
+  revoke?: Boolean;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface RefreshTokenPromise
+  extends Promise<RefreshToken>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  refreshToken: () => Promise<String>;
+  accessToken: () => Promise<String>;
+  expiresIn: () => Promise<String>;
+  revoke: () => Promise<Boolean>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface RefreshTokenSubscription
+  extends Promise<AsyncIterator<RefreshToken>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  user: <T = UserSubscription>() => T;
+  refreshToken: () => Promise<AsyncIterator<String>>;
+  accessToken: () => Promise<AsyncIterator<String>>;
+  expiresIn: () => Promise<AsyncIterator<String>>;
+  revoke: () => Promise<AsyncIterator<Boolean>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface RefreshTokenNullablePromise
+  extends Promise<RefreshToken | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  refreshToken: () => Promise<String>;
+  accessToken: () => Promise<String>;
+  expiresIn: () => Promise<String>;
+  revoke: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -790,6 +1254,62 @@ export interface AggregateFavoriteWallpaperPromise
 
 export interface AggregateFavoriteWallpaperSubscription
   extends Promise<AsyncIterator<AggregateFavoriteWallpaper>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface RefreshTokenConnection {
+  pageInfo: PageInfo;
+  edges: RefreshTokenEdge[];
+}
+
+export interface RefreshTokenConnectionPromise
+  extends Promise<RefreshTokenConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<RefreshTokenEdge>>() => T;
+  aggregate: <T = AggregateRefreshTokenPromise>() => T;
+}
+
+export interface RefreshTokenConnectionSubscription
+  extends Promise<AsyncIterator<RefreshTokenConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RefreshTokenEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRefreshTokenSubscription>() => T;
+}
+
+export interface RefreshTokenEdge {
+  node: RefreshToken;
+  cursor: String;
+}
+
+export interface RefreshTokenEdgePromise
+  extends Promise<RefreshTokenEdge>,
+    Fragmentable {
+  node: <T = RefreshTokenPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface RefreshTokenEdgeSubscription
+  extends Promise<AsyncIterator<RefreshTokenEdge>>,
+    Fragmentable {
+  node: <T = RefreshTokenSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateRefreshToken {
+  count: Int;
+}
+
+export interface AggregateRefreshTokenPromise
+  extends Promise<AggregateRefreshToken>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateRefreshTokenSubscription
+  extends Promise<AsyncIterator<AggregateRefreshToken>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -917,6 +1437,65 @@ export interface FavoriteWallpaperPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface RefreshTokenSubscriptionPayload {
+  mutation: MutationType;
+  node: RefreshToken;
+  updatedFields: String[];
+  previousValues: RefreshTokenPreviousValues;
+}
+
+export interface RefreshTokenSubscriptionPayloadPromise
+  extends Promise<RefreshTokenSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = RefreshTokenPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = RefreshTokenPreviousValuesPromise>() => T;
+}
+
+export interface RefreshTokenSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<RefreshTokenSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = RefreshTokenSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = RefreshTokenPreviousValuesSubscription>() => T;
+}
+
+export interface RefreshTokenPreviousValues {
+  id: ID_Output;
+  refreshToken: String;
+  accessToken: String;
+  expiresIn: String;
+  revoke?: Boolean;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface RefreshTokenPreviousValuesPromise
+  extends Promise<RefreshTokenPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  refreshToken: () => Promise<String>;
+  accessToken: () => Promise<String>;
+  expiresIn: () => Promise<String>;
+  revoke: () => Promise<Boolean>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface RefreshTokenPreviousValuesSubscription
+  extends Promise<AsyncIterator<RefreshTokenPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  refreshToken: () => Promise<AsyncIterator<String>>;
+  accessToken: () => Promise<AsyncIterator<String>>;
+  expiresIn: () => Promise<AsyncIterator<String>>;
+  revoke: () => Promise<AsyncIterator<Boolean>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -991,6 +1570,11 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -1005,11 +1589,6 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 */
 export type Int = number;
 
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
 export type Long = string;
 
 /**
@@ -1023,6 +1602,10 @@ export const models: Model[] = [
   },
   {
     name: "FavoriteWallpaper",
+    embedded: false
+  },
+  {
+    name: "RefreshToken",
     embedded: false
   },
   {

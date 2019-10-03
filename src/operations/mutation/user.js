@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 
 import hashPassword from '../../utils/security/hashPassword'
-import generateToken from '../../utils/security/generateToken'
+import { generateToken, renewAccessToken } from '../../utils/security/token'
 
 const createUser = async (parent, args, { prisma }, info) => {
   const { password: passwordRaw } = args.data
@@ -15,10 +15,8 @@ const createUser = async (parent, args, { prisma }, info) => {
     ...args.data,
     password
   })
-  return {
-    user,
-    token: generateToken(user.id)
-  }
+
+  return generateToken(prisma, user.id)
 }
 
 const login = async (parent, args, { prisma }) => {
@@ -28,10 +26,13 @@ const login = async (parent, args, { prisma }) => {
   if (!user) throw new Error(errorMsg)
   const valid = await bcrypt.compare(password, user.password)
   if (!valid) throw new Error(errorMsg)
-  return {
-    user,
-    token: generateToken(user.id)
-  }
+
+  return generateToken(prisma, user.id)
+}
+
+const renewUserAccessToken = async (parent, { refreshToken }, { prisma }) => {
+  console.log('renewUserAccessToken: refreshToken', refreshToken)
+  return renewAccessToken(prisma, refreshToken)
 }
 
 const updateUser = async (parent, args, { prisma }, info) => {
@@ -55,4 +56,4 @@ const deleteUser = async (parent, args, { prisma }, info) => {
   return user
 }
 
-export { createUser, login, updateUser, deleteUser }
+export { createUser, login, renewUserAccessToken, updateUser, deleteUser }

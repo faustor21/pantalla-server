@@ -3,10 +3,13 @@
 - [ ] Add the servers installation and configurations instructions in the README.md
 - [x] Fix relations between resolvers
 - [ ] Security
+  - [ ] Implement user's email verification
+  - [ ] Validate users inputs (Ex: createUser, login, etc)
   - [x] Authentication
     - [x] Install necessary libraries: `bcryptjs`, `jsonwebtoken`
     - [x] Add utility function for password encryption
     - [x] Configure and prepare jsonwebtoken to be use
+    - [X] Implement refresh token strategy
     - [x] Forbid the password field to be return when a user is returned. This is achieve by no adding the password field of the user's type in the schema.graphql
     - [x] Check that all the resolvers go through the authentication middleware, except for `login` and `createUser`
     - [x] Make sure everything is glue together and every query goes through after the user is authenticated
@@ -18,8 +21,8 @@
       - [x] Add user login abilities
       - [x] Return JWT token on login requests
       - [x] Encrypt user's password with bcryptjs
-  - [ ] Authorization
+  - [X] Authorization
     - [x] Install necessary library: `graphql-shield`
-    - [X] Create permissions middleware
+    - [x] Create permissions middleware
     - [x] Add rules for all the resources that need it
 - [ ] Tests

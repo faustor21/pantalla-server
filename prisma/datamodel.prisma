@@ -7,6 +7,8 @@ type User {
   role: Role! @default(value: USER)
   favoriteWallpapers: [FavoriteWallpaper!]!
     @relation(name: "FavWallpaperToUser", onDelete: CASCADE)
+  refreshTokens: [RefreshToken!]!
+    @relation(name: "UserToRefreshToken", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -17,6 +19,17 @@ type FavoriteWallpaper {
   wallpaperId: String! # This is the wallpaper's id given by the source, not the local id
   source: Source!
   user: User! @relation(name: "FavWallpaperToUser")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type RefreshToken {
+  id: ID! @id
+  user: User! @relation(name: "UserToRefreshToken")
+  refreshToken: String! @unique
+  accessToken: String! @unique
+  expiresIn: String! # This is suppose to be a Long type but Prisma does not currently supports it
+  revoke: Boolean @default(value: false)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
