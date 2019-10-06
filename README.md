@@ -6,7 +6,7 @@
 
 - [Node.js](https://nodejs.org/en/)
 - [PostgreSQL](https://www.postgresql.org/)
-- **GraphQL** (In the form of [Prisma 1](https://www.prisma.io 'Prisma replaces traditional ORMs'))
+- **GraphQL** (With [graphql-yoga](https://github.com/prisma-labs/graphql-yoga) and [Prisma](https://www.prisma.io 'Prisma replaces traditional ORMs') for the DB access layer)
 
 ### Installation
 
