@@ -647,6 +647,7 @@ type User {
   name: String!
   email: String!
   password: String!
+  birthYear: Int!
   avatar: String
   role: Role!
   favoriteWallpapers(where: FavoriteWallpaperWhereInput, orderBy: FavoriteWallpaperOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FavoriteWallpaper!]
@@ -666,6 +667,7 @@ input UserCreateInput {
   name: String!
   email: String!
   password: String!
+  birthYear: Int!
   avatar: String
   role: Role
   favoriteWallpapers: FavoriteWallpaperCreateManyWithoutUserInput
@@ -687,6 +689,7 @@ input UserCreateWithoutFavoriteWallpapersInput {
   name: String!
   email: String!
   password: String!
+  birthYear: Int!
   avatar: String
   role: Role
   refreshTokens: RefreshTokenCreateManyWithoutUserInput
@@ -697,6 +700,7 @@ input UserCreateWithoutRefreshTokensInput {
   name: String!
   email: String!
   password: String!
+  birthYear: Int!
   avatar: String
   role: Role
   favoriteWallpapers: FavoriteWallpaperCreateManyWithoutUserInput
@@ -716,6 +720,8 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
+  birthYear_ASC
+  birthYear_DESC
   avatar_ASC
   avatar_DESC
   role_ASC
@@ -731,6 +737,7 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
+  birthYear: Int!
   avatar: String
   role: Role!
   createdAt: DateTime!
@@ -759,6 +766,7 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
+  birthYear: Int
   avatar: String
   role: Role
   favoriteWallpapers: FavoriteWallpaperUpdateManyWithoutUserInput
@@ -769,6 +777,7 @@ input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+  birthYear: Int
   avatar: String
   role: Role
 }
@@ -791,6 +800,7 @@ input UserUpdateWithoutFavoriteWallpapersDataInput {
   name: String
   email: String
   password: String
+  birthYear: Int
   avatar: String
   role: Role
   refreshTokens: RefreshTokenUpdateManyWithoutUserInput
@@ -800,6 +810,7 @@ input UserUpdateWithoutRefreshTokensDataInput {
   name: String
   email: String
   password: String
+  birthYear: Int
   avatar: String
   role: Role
   favoriteWallpapers: FavoriteWallpaperUpdateManyWithoutUserInput
@@ -872,6 +883,14 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  birthYear: Int
+  birthYear_not: Int
+  birthYear_in: [Int!]
+  birthYear_not_in: [Int!]
+  birthYear_lt: Int
+  birthYear_lte: Int
+  birthYear_gt: Int
+  birthYear_gte: Int
   avatar: String
   avatar_not: String
   avatar_in: [String!]

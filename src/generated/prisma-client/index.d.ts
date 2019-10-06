@@ -234,6 +234,8 @@ export type UserOrderByInput =
   | "email_DESC"
   | "password_ASC"
   | "password_DESC"
+  | "birthYear_ASC"
+  | "birthYear_DESC"
   | "avatar_ASC"
   | "avatar_DESC"
   | "role_ASC"
@@ -361,6 +363,14 @@ export interface UserWhereInput {
   password_not_starts_with?: Maybe<String>;
   password_ends_with?: Maybe<String>;
   password_not_ends_with?: Maybe<String>;
+  birthYear?: Maybe<Int>;
+  birthYear_not?: Maybe<Int>;
+  birthYear_in?: Maybe<Int[] | Int>;
+  birthYear_not_in?: Maybe<Int[] | Int>;
+  birthYear_lt?: Maybe<Int>;
+  birthYear_lte?: Maybe<Int>;
+  birthYear_gt?: Maybe<Int>;
+  birthYear_gte?: Maybe<Int>;
   avatar?: Maybe<String>;
   avatar_not?: Maybe<String>;
   avatar_in?: Maybe<String[] | String>;
@@ -515,6 +525,7 @@ export interface UserCreateWithoutFavoriteWallpapersInput {
   name: String;
   email: String;
   password: String;
+  birthYear: Int;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
   refreshTokens?: Maybe<RefreshTokenCreateManyWithoutUserInput>;
@@ -554,6 +565,7 @@ export interface UserUpdateWithoutFavoriteWallpapersDataInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  birthYear?: Maybe<Int>;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
   refreshTokens?: Maybe<RefreshTokenUpdateManyWithoutUserInput>;
@@ -727,6 +739,7 @@ export interface UserCreateWithoutRefreshTokensInput {
   name: String;
   email: String;
   password: String;
+  birthYear: Int;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
   favoriteWallpapers?: Maybe<FavoriteWallpaperCreateManyWithoutUserInput>;
@@ -767,6 +780,7 @@ export interface UserUpdateWithoutRefreshTokensDataInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  birthYear?: Maybe<Int>;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
   favoriteWallpapers?: Maybe<FavoriteWallpaperUpdateManyWithoutUserInput>;
@@ -909,6 +923,7 @@ export interface UserCreateInput {
   name: String;
   email: String;
   password: String;
+  birthYear: Int;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
   favoriteWallpapers?: Maybe<FavoriteWallpaperCreateManyWithoutUserInput>;
@@ -919,6 +934,7 @@ export interface UserUpdateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  birthYear?: Maybe<Int>;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
   favoriteWallpapers?: Maybe<FavoriteWallpaperUpdateManyWithoutUserInput>;
@@ -929,6 +945,7 @@ export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  birthYear?: Maybe<Int>;
   avatar?: Maybe<String>;
   role?: Maybe<Role>;
 }
@@ -1031,6 +1048,7 @@ export interface User {
   name: String;
   email: String;
   password: String;
+  birthYear: Int;
   avatar?: String;
   role: Role;
   createdAt: DateTimeOutput;
@@ -1042,6 +1060,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  birthYear: () => Promise<Int>;
   avatar: () => Promise<String>;
   role: () => Promise<Role>;
   favoriteWallpapers: <T = FragmentableArray<FavoriteWallpaper>>(args?: {
@@ -1073,6 +1092,7 @@ export interface UserSubscription
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  birthYear: () => Promise<AsyncIterator<Int>>;
   avatar: () => Promise<AsyncIterator<String>>;
   role: () => Promise<AsyncIterator<Role>>;
   favoriteWallpapers: <
@@ -1106,6 +1126,7 @@ export interface UserNullablePromise
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  birthYear: () => Promise<Int>;
   avatar: () => Promise<String>;
   role: () => Promise<Role>;
   favoriteWallpapers: <T = FragmentableArray<FavoriteWallpaper>>(args?: {
@@ -1526,6 +1547,7 @@ export interface UserPreviousValues {
   name: String;
   email: String;
   password: String;
+  birthYear: Int;
   avatar?: String;
   role: Role;
   createdAt: DateTimeOutput;
@@ -1539,6 +1561,7 @@ export interface UserPreviousValuesPromise
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  birthYear: () => Promise<Int>;
   avatar: () => Promise<String>;
   role: () => Promise<Role>;
   createdAt: () => Promise<DateTimeOutput>;
@@ -1552,6 +1575,7 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  birthYear: () => Promise<AsyncIterator<Int>>;
   avatar: () => Promise<AsyncIterator<String>>;
   role: () => Promise<AsyncIterator<Role>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -1570,6 +1594,11 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
@@ -1583,11 +1612,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
 
 export type Long = string;
 

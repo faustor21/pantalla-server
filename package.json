@@ -23,7 +23,8 @@
   "author": "Fausto Ramirez L.",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-core": "^2.9.4",
+    "@hapi/joi": "^16.1.7",
+    "apollo-server-core": "^2.9.5",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.1.0",
     "graphql-shield": "^6.1.0",
@@ -41,7 +42,7 @@
     "@babel/preset-env": "^7.6.2",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.3.0",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",

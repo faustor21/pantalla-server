@@ -12,6 +12,9 @@ export default {
     }
   },
   validation: {
+    inputError: {
+      code: 'InputError'
+    },
     favoriteWallpaperExists: {
       message: 'Already added as a Favorite Wallpaper',
       code: 'FavoriteWallpaperExists'

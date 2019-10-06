@@ -62,6 +62,8 @@ input CreateUserInput {
   name: String!
   email: String!
   password: String!
+  repeatPassword: String!
+  birthYear: Int!
 }
 
 input UpdateUserInput {

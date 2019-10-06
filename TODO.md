@@ -4,7 +4,7 @@
 - [x] Fix relations between resolvers
 - [ ] Security
   - [ ] Implement user's email verification
-  - [ ] Validate users inputs (Ex: createUser, login, etc)
+  - [X] Validate users inputs (Ex: createUser, login, etc)
   - [x] Authentication
     - [x] Install necessary libraries: `bcryptjs`, `jsonwebtoken`
     - [x] Add utility function for password encryption

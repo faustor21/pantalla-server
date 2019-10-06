@@ -3,6 +3,7 @@ type User {
   name: String!
   email: String! @unique
   password: String!
+  birthYear: Int!
   avatar: String
   role: Role! @default(value: USER)
   favoriteWallpapers: [FavoriteWallpaper!]!
