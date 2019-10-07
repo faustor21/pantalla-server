@@ -3,7 +3,6 @@ import Joi from '@hapi/joi'
 import inputError from './inputError'
 
 // User's input validations for mutations and queries goes here
-
 const email = Joi.string()
   .email({ minDomainSegments: 2 })
   .error(errors => inputError('Must be a valid email'))
@@ -17,10 +16,22 @@ const password = Joi.string()
 
 // Schemas
 const createUser = Joi.object({
+  name: Joi.string()
+    .pattern(/^[\p{L}\s'"\-_&@!?()[\]-]{3,60}$/su)
+    .error(errors => inputError('Must be a valid name'))
+    .required(),
+
   email,
   password,
 
-  repeatPassword: Joi.ref('password'),
+  repeatPassword: Joi.string()
+    .custom((value, helpers) => {
+      if (helpers.state.ancestors[0].password === value) return value
+      return helpers.error('any.invalid')
+    })
+    .error(errors =>
+      inputError('Repeat Password must be the same as Password')
+    ),
 
   birthYear: Joi.number()
     .integer()
