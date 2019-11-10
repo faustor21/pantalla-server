@@ -5,15 +5,11 @@ const isAdmin = rule()(async (parent, args, { userId, prisma }) => {
   return user.role === 'ADMIN'
 })
 
-const isFavoriteWallpaperOwner = rule()(
-  async (parent, { favoriteWallpaperId }, { userId, prisma }) => {
+const isWallpaperOwner = rule()(
+  async (parent, { wallpaperId }, { userId, prisma }) => {
     let user
     try {
-      user = await prisma
-        .favoriteWallpaper({
-          id: favoriteWallpaperId
-        })
-        .user()
+      user = await prisma.wallpaper({ id: wallpaperId }).user()
     } catch (error) {
       console.error(error)
     }
@@ -32,4 +28,4 @@ const imTheOwner = rule()(async (parent, args, { userId, prisma }, info) => {
   return user.id === args.userId
 })
 
-export { isAdmin, isFavoriteWallpaperOwner, imTheOwner }
+export { isAdmin, isWallpaperOwner, imTheOwner }

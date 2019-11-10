@@ -1,6 +1,6 @@
 const User = {
-  favoriteWallpapers(parent, _, { prisma }) {
-    return prisma.user({ id: parent.id }).favoriteWallpapers()
+   wallpapers(parent, _, { prisma }) {
+    return prisma.user({ id: parent.id }).wallpapers()  
   }
 }
 

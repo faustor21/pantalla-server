@@ -5,21 +5,22 @@ type User {
   password: String!
   birthYear: Int!
   avatar: String
+  verified: Boolean @default(value: false) # If the account has been verified by email
   role: Role! @default(value: USER)
-  favoriteWallpapers: [FavoriteWallpaper!]!
-    @relation(name: "FavWallpaperToUser", onDelete: CASCADE)
-  refreshTokens: [RefreshToken!]!
-    @relation(name: "UserToRefreshToken", onDelete: CASCADE)
+  wallpapers: [Wallpaper!]! @relation(name: "WallpaperToUser", onDelete: CASCADE)
+  refreshTokens: [RefreshToken!]! @relation(name: "UserToRefreshToken", onDelete: CASCADE)
+  resetPasswordTokens: [ResetPasswordToken!]! @relation(name: "UserToResetPasswordToken", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
-# User's favorites wallpapers
-type FavoriteWallpaper {
+# User's  wallpapers
+type Wallpaper {
   id: ID! @id
-  wallpaperId: String! # This is the wallpaper's id given by the source, not the local id
+  wallpaperId: String! # Wallpaper's ID given by the Source (PEXELS or UNSPLASH)
   source: Source!
-  user: User! @relation(name: "FavWallpaperToUser")
+  user: User! @relation(name: "WallpaperToUser")
+  rating: Float # Up to 5 stars rating for the Wallpaper from the user
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -29,7 +30,17 @@ type RefreshToken {
   user: User! @relation(name: "UserToRefreshToken")
   refreshToken: String! @unique
   accessToken: String! @unique
-  expiresIn: String! # This is suppose to be a Long type but Prisma does not currently supports it
+  expiresIn: String! # This is suppose to be a type Long but Prisma does not currently have supports for it
+  revoke: Boolean @default(value: false)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type ResetPasswordToken {
+  id: ID! @id
+  user: User! @relation(name: "UserToResetPasswordToken")
+  token: String! @unique
+  expiresIn: String! # This is suppose to be of type Long but Prisma currently does not have supports for it
   revoke: Boolean @default(value: false)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt

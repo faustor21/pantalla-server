@@ -4,13 +4,13 @@ import * as rules from './rules'
 
 export default shield({
   Query: {
-    favoriteWallpaper: or(rules.isAdmin, rules.isFavoriteWallpaperOwner),
-    getAllFavoriteWallpapers: rules.isAdmin,
+    wallpaper: or(rules.isAdmin, rules.isWallpaperOwner),
+    getAllWallpapers: rules.isAdmin,
     user: or(rules.isAdmin, rules.imTheOwner),
     users: rules.isAdmin
   },
   Mutation: {
-    deleteFavoriteWallpaper: or(rules.isAdmin, rules.isFavoriteWallpaperOwner),
+    deleteWallpaper: or(rules.isAdmin, rules.isWallpaperOwner),
     deleteUser: or(rules.isAdmin, rules.imTheOwner),
     updateUser: or(rules.isAdmin, rules.imTheOwner)
   }

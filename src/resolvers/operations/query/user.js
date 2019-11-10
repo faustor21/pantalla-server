@@ -1,6 +1,6 @@
 import { ValidationError } from 'apollo-server-core'
 
-import errors from '../../errors'
+import errors from '../../../errors'
 
 const user = async (parent, { userId }, { prisma }, info) => {
   const userExists = await prisma.$exists.user({ id: userId })

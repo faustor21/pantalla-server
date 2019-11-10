@@ -1,7 +1,8 @@
 import User from './User'
-import FavoriteWallpaper from './FavoriteWallpaper'
+import Wallpaper from './Wallpaper'
 
+// Our Custom Types
 export default {
   User,
-  FavoriteWallpaper
+  Wallpaper
 }

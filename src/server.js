@@ -2,6 +2,7 @@ import { GraphQLServer } from 'graphql-yoga'
 
 import prisma from './prisma'
 import { resolvers } from './resolvers'
+import setupExpress from './setupExpress'
 
 import authenticate from './middleware/authenticate'
 import permissions from './middleware/permissions'
@@ -11,7 +12,8 @@ import applyMiddlewareTo from './utils/applyMiddlewareTo'
 const authMiddleware = applyMiddlewareTo(resolvers, authenticate, [
   'createUser',
   'login',
-  'renewUserAccessToken'
+  'renewUserAccessToken',
+  'resetPassword'
 ])
 
 const server = new GraphQLServer({
@@ -25,5 +27,7 @@ const server = new GraphQLServer({
     }
   }
 })
+
+setupExpress(server.express, prisma)
 
 server.start(options => console.log(`Server running on port ${options.port}`))

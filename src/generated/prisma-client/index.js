@@ -9,11 +9,15 @@ var models = [
     embedded: false
   },
   {
-    name: "FavoriteWallpaper",
+    name: "Wallpaper",
     embedded: false
   },
   {
     name: "RefreshToken",
+    embedded: false
+  },
+  {
+    name: "ResetPasswordToken",
     embedded: false
   },
   {

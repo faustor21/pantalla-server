@@ -2,9 +2,12 @@
 
 - [ ] Add the servers installation and configurations instructions in the README.md
 - [x] Fix relations between resolvers
+- [x] Add user's profile query (User just have to query for `user(userId)`)
 - [ ] Security
-  - [ ] Implement user's email verification
-  - [X] Validate users inputs (Ex: createUser, login, etc)
+  - [x] Implement user's email validation/confirmation upon account creation
+  - [ ] Implement reset password  functionality
+  - [ ] Implement application wide logging
+  - [x] Validate users inputs (Ex: createUser, login, etc)
   - [x] Authentication
     - [x] Install necessary libraries: `bcryptjs`, `jsonwebtoken`
     - [x] Add utility function for password encryption
@@ -21,7 +24,7 @@
       - [x] Add user login abilities
       - [x] Return JWT token on login requests
       - [x] Encrypt user's password with bcryptjs
-  - [X] Authorization
+  - [x] Authorization
     - [x] Install necessary library: `graphql-shield`
     - [x] Create permissions middleware
     - [x] Add rules for all the resources that need it

@@ -162,4 +162,9 @@ const revokeToken = async (prisma, refreshToken) => {
   return updatedRefreshToken
 }
 
-export { generateToken, verifyDecodeJWTToken, renewAccessToken, revokeToken }
+export {
+  generateToken,
+  verifyDecodeJWTToken,
+  renewAccessToken,
+  revokeToken
+}

@@ -5,7 +5,7 @@ import typeResolvers from './types'
 const resolvers = {
   Query,
   Mutation,
-  ...typeResolvers
+  ...typeResolvers // Our Custom Types
 }
 
 export { resolvers }

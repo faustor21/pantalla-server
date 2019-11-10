@@ -1,4 +1,4 @@
-import { queryOperations } from '../operations'
+import { queryOperations } from './operations'
 
 const Query = {
   ...queryOperations

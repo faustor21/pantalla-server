@@ -17,7 +17,7 @@ const password = Joi.string()
 // Schemas
 const createUser = Joi.object({
   name: Joi.string()
-    .pattern(/^[\p{L}\s'"\-_&@!?()[\]-]{3,60}$/su)
+    .pattern(new RegExp(`^[\\p{L}\\s'"\\-_&@!?()]{3,60}$`, 'u'))
     .error(errors => inputError('Must be a valid name'))
     .required(),
 

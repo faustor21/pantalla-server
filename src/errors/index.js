@@ -1,4 +1,4 @@
-export default {
+const errors = {
   authentication: {
     tokenExpiredError: {
       message: 'Token Has Expired',
@@ -15,17 +15,22 @@ export default {
     inputError: {
       code: 'InputError'
     },
-    favoriteWallpaperExists: {
-      message: 'Already added as a Favorite Wallpaper',
-      code: 'FavoriteWallpaperExists'
+    wallpaperExists: {
+      message: 'Already Rated Wallpaper',
+      code: 'WallpaperExists'
     },
-    favoriteWallpaperNotFound: {
-      message: 'Favorite Wallpaper Not Found',
-      code: 'FavoriteWallpaperNotFound'
+    wallpaperNotFound: {
+      message: 'Wallpaper Not Found',
+      code: 'WallpaperNotFound'
     },
     userEmailExists: {
       message: 'E-mail already exists in our records',
       code: 'UserEmailExists'
+    },
+    userEmailNotValidated: {
+      message:
+        "This user's email/account has not been validated, please proceed to do so",
+      code: 'EmailAccountNotValidated'
     },
     emailPasswordIncorrect: {
       message: 'E-mail or password incorrect',
@@ -37,3 +42,12 @@ export default {
     }
   }
 }
+
+const getException = (type, name, ClassName) => {
+  const { message, code } = errors[type][name]
+  const error = new ClassName(message)
+  error.extensions.code = code
+  return error
+}
+
+export { getException, errors as default }

@@ -1,4 +1,4 @@
-import { mutationOperations } from '../operations'
+import { mutationOperations } from './operations'
 
 const Mutation = {
   ...mutationOperations
