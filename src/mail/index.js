@@ -16,7 +16,7 @@ const templates = {
 
 // Time for the verification token to expires in
 const VERIFICATION_EXPIRES_IN = '7 days'
-const PASSWORD_RESET_EXPIRES_IN = '5 minutes'
+const REQUEST_PASSWORD_RESET_EXPIRES_IN = '1 hour'
 
 /**
  * Send a welcome email to the user upon account creation
@@ -86,7 +86,7 @@ const verifyAccount = async (userName, email) => {
   return result
 }
 
-const resetPassword = async (userName, email) => {
+const requestResetPassword = async (userName, email) => {
   const data = {
     pageTitle: 'Reset Password',
     companyName: process.env.COMPANY_NAME,
@@ -97,7 +97,7 @@ const resetPassword = async (userName, email) => {
   }
 
   const token = jwt.sign({ email }, process.env.MAIL_JWT_SECRET, {
-    expiresIn: PASSWORD_RESET_EXPIRES_IN
+    expiresIn: REQUEST_PASSWORD_RESET_EXPIRES_IN
   })
   data.actionUrl = `${process.env.APP_SERVER}/reset/${email}/password/${token}`
   const html = Sqrl.renderFile(
@@ -113,7 +113,7 @@ const resetPassword = async (userName, email) => {
 
   const result = await sendMail(mail)
 
-  return { result, token, expires: PASSWORD_RESET_EXPIRES_IN }
+  return { result, token, expires: REQUEST_PASSWORD_RESET_EXPIRES_IN }
 }
 
 const sendMail = mail => {
@@ -126,4 +126,4 @@ const sendMail = mail => {
   })
 }
 
-export default { verifyAccount, welcome, resetPassword }
+export default { verifyAccount, welcome, requestResetPassword }

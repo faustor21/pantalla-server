@@ -9,6 +9,10 @@ const errors = {
     invalidRefreshTokenError: {
       message: 'Invalid or revoked refresh token',
       code: 'InvalidRefreshToken'
+    },
+    revokedResetPasswordTokenError: {
+      message: 'Revoked reset password token',
+      code: 'InvalidResetPasswordToken'
     }
   },
   validation: {

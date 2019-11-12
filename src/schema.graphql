@@ -10,11 +10,12 @@ type Mutation {
   createUser(data: CreateUserInput!): AuthPayload!
   login(data: LoginUserInput!): AuthPayload!
   renewUserAccessToken(refreshToken: String!): AuthPayload!
-  resetPassword(email: String!): String!
+  requestResetPassword(email: String!): String!
+  resetPassword(data: ResetPasswordInput!): String!
   updateUser(data: UpdateUserInput!, userId: ID!): User!
   deleteUser(userId: ID!): User!
   createWallpaper(data: WallpaperInput!): Wallpaper!
-  deleteWallpaper(wallpaperId: ID!): Wallpaper!
+  deleteWallpaper(wallpaperId: ID!): WallpaperPayload!
 }
 
 type User {
@@ -38,14 +39,31 @@ type Wallpaper {
   updatedAt: String!
 }
 
+enum Source {
+  PEXELS
+  UNSPLASH
+}
+
 type AuthPayload {
   accessToken: String!
   refreshToken: String!
 }
 
-enum Source {
-  PEXELS
-  UNSPLASH
+type WallpaperPayload {
+  id: ID!
+  wallpaperId: String! 
+  source: Source!
+  rating: Float
+  createdAt: String
+  updatedAt: String
+}
+
+input ResetPasswordInput {
+  email: String!
+  oldPassword: String!
+  newPassword: String!
+  repeatNewPassword: String!
+  token: String!
 }
 
 input WallpaperInput {

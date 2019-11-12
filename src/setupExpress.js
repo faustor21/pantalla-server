@@ -43,7 +43,7 @@ export default (app, prisma) => {
     const { email, token } = req.params
     try {
       // const decoded = await jwt.verify(token, process.env.MAIL_JWT_SECRET)
-      // if (decoded.email !== email) throw new Error('Password cannot be reset')
+      // if (decoded.email !== email) throw new Error('Credentials do not match, the password cannot be reset.')
       const user = await prisma.user({ email })
       // console.log('user', user)
       const [ resetPasswordToken ] = await prisma.resetPasswordTokens({ where: {
@@ -53,7 +53,7 @@ export default (app, prisma) => {
       // const resetPasswordToken = await prisma.resetPasswordTokens( {
       //   token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZhdXN0b3IyMUBnbWFpbC5jb20iLCJpYXQiOjE1NzI5ODg3NDcsImV4cCI6MTU3Mjk4OTA0N30.EzJ01G-zF1nh38cfxo3ybQcDJ6XFWA6H0_0fH9EMWJY"
       // })      
-      console.log('resetPasswordToken', resetPasswordToken)      
+      // console.log('resetPasswordToken', resetPasswordToken)      
       if (resetPasswordToken)
         res.sendFile(`${htmlPagesPath}/reset-password.html`)
       else  {

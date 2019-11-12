@@ -20,7 +20,7 @@ type Wallpaper {
   wallpaperId: String! # Wallpaper's ID given by the Source (PEXELS or UNSPLASH)
   source: Source!
   user: User! @relation(name: "WallpaperToUser")
-  rating: Float # Up to 5 stars rating for the Wallpaper from the user
+  rating: Float @default(value: 0) # Up to 5 stars rating for the Wallpaper from the user
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

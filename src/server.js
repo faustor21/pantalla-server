@@ -13,6 +13,7 @@ const authMiddleware = applyMiddlewareTo(resolvers, authenticate, [
   'createUser',
   'login',
   'renewUserAccessToken',
+  'requestResetPassword',  
   'resetPassword'
 ])
 
