@@ -61,11 +61,10 @@ export default (app, prisma) => {
       const [resetPasswordToken] = await prisma.resetPasswordTokens({
         where: {
           user: { id: user.id },
-          AND: { token }
+          AND: { token, revoke: false }
         }
       })
 
-      console.log('resetPasswordToken', resetPasswordToken)
       if (resetPasswordToken)
         res.sendFile(`${htmlPagesRestrictedPath}/reset-password.html`)
       else {

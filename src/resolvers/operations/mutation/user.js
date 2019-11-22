@@ -154,14 +154,22 @@ const resetPassword = async (parent, { data }, { prisma }, info) => {
     throw error
   }
 
-  const decoded = await jwt.verify(token, process.env.MAIL_JWT_SECRET)
-  if (decoded.email !== email || newPassword !== repeatNewPassword) {
-    const {
-      emailPasswordIncorrect: { message, code }
-    } = errors.validation
-    const error = new ValidationError(message)
-    error.extensions.code = code
-    throw error
+  try {
+    const decoded = await jwt.verify(token, process.env.MAIL_JWT_SECRET)
+    if (decoded.email !== email || newPassword !== repeatNewPassword) {
+      const {
+        emailPasswordIncorrect: { message, code }
+      } = errors.validation
+      const error = new ValidationError(message)
+      error.extensions.code = code
+      throw error
+    }
+  }catch(e) {
+    await prisma.updateResetPasswordToken({
+      data: { revoke: true },
+      where: { token }
+    })
+    throw e
   }
 
   const isRevoked = await prisma.$exists.resetPasswordToken({ token, revoke: true })
@@ -203,7 +211,7 @@ const resetPassword = async (parent, { data }, { prisma }, info) => {
     where: { token }
   })
 
-  return '<strong>Password successfully Reset.</strong> You may now close this window.'
+  return '<strong>Password successfully reset.</strong> You may now close this window.'
 }
 
 const updateUser = async (parent, { data, userId }, { prisma }, info) => {
