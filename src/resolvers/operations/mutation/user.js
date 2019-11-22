@@ -145,19 +145,26 @@ const requestResetPassword = async (parent, { email }, { prisma }, info) => {
 
 const resetPassword = async (parent, { data }, { prisma }, info) => {
   const { token, email, oldPassword, newPassword, repeatNewPassword } = data
-  const decoded = await jwt.verify(token, process.env.MAIL_JWT_SECRET)
+  if (newPassword.trim().length < 8) {
+    const {
+      passwordIncorrectLength: { message, code }
+    } = errors.validation
+    const error = new ValidationError(message)
+    error.extensions.code = code
+    throw error
+  }
 
+  const decoded = await jwt.verify(token, process.env.MAIL_JWT_SECRET)
   if (decoded.email !== email || newPassword !== repeatNewPassword) {
     const {
       emailPasswordIncorrect: { message, code }
     } = errors.validation
     const error = new ValidationError(message)
     error.extensions.code = code
-    console.log('The freaking error', error)
     throw error
   }
 
-  const isRevoked =  prisma.$exists.resetPasswordToken({ token, revoke: false })
+  const isRevoked = await prisma.$exists.resetPasswordToken({ token, revoke: true })
   if (isRevoked) {
     const { revokedResetPasswordTokenError: { message, code } } = errors.forbidden
     const error = new ForbiddenError(message)
@@ -166,20 +173,29 @@ const resetPassword = async (parent, { data }, { prisma }, info) => {
   }  
 
   const user = await prisma.user({ email })
-  const valid = await bcrypt.compare(oldPassword, user.password)
-
-  if (!valid) {
+  const validPassword = await bcrypt.compare(oldPassword, user.password)
+  if (!validPassword) {
     const {
       emailPasswordIncorrect: { message, code }
     } = errors.validation
     const error = new ValidationError(message)
     error.extensions.code = code
-    console.log('The freaking error', error)
     throw error
   }
-  const password = await hashPassword(newPassword)
+
+  // Compares the old password with the new password
+  // to make sure the user really changes the password
+  const areTheSame = oldPassword === newPassword
+  if (areTheSame) {
+    const { oldPasswordAndNewPasswordTheSame: { message, code } } = errors.validation
+    const error = new ForbiddenError(message)
+    error.extensions.code = code
+    throw error
+  }
+
+  const newPasswordHash = await hashPassword(newPassword)
   await prisma.updateUser({
-     data: { password } ,
+     data: { password: newPasswordHash } ,
      where: { email: user.email }  
   })
   await prisma.updateResetPasswordToken({
@@ -187,7 +203,7 @@ const resetPassword = async (parent, { data }, { prisma }, info) => {
     where: { token }
   })
 
-  return 'Password successfully Reset!!'
+  return '<strong>Password successfully Reset.</strong> You may now close this window.'
 }
 
 const updateUser = async (parent, { data, userId }, { prisma }, info) => {
