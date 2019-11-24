@@ -1,6 +1,6 @@
 # Pantalla Server (Server Side or Back-End)
 
-## A background chooser application for Linux yeah
+## A background chooser application for Linux
 
 ### This backend mainly uses the following technologies
 
