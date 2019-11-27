@@ -25,10 +25,52 @@ $ mkdir env && touch env/dev.env env/prod.env env/test.env
 And the add these variables in the files you just created
 
 ```env
-PRISMA_ENDPOINT=__YOUR_HOST_ENDPOINT__
-PRISMA_SECRET=__YOUR_PRISMA_SECRET__
-JWT_SECRET=__YOUR_JWT_SECRET__
-PEXELS_API_KEY=__YOUR_PEXELS_API_KEY__
-UNSPLASH_APP_ACCESS_KEY=__YOUR_UNSPLASH_APP_ACCESS_KEY__
-UNSPLASH_APP_SECRET=__YOUR_UNSPLASH_APP_SECRET__
+APP_NAME=_NAME_OF_THE_APP_
+COMPANY_NAME=_THE_COMPANY_NAME_
+
+# Web server and Endpoint
+APP_SERVER=http://localhost:4000
+PRISMA_ENDPOINT=http://localhost:4466
+PRISMA_SECRET=_YOUR_PRISMA_ENDPOINT_SECRET_
+JWT_SECRET=_YOUR_JWT_SECRET_
+
+# Wallpaper Services
+PEXELS_API_KEY=_THE_PEXELS_API_KEY_
+UNSPLASH_APP_ACCESS_KEY=_UNSPLASH_ACCESS_KEY_
+UNSPLASH_APP_SECRET=_UNSPLASH_SECRET_
+
+############################
+### E-MAIL CONFIGURATION ###
+############################
+MAIL_JWT_SECRET=_E-MAIL_TOKEN_ENCRYPTION_JWT_SECRET_
+MAIL_FROM_DEFAULT=sample@mail.com
+
+###################################################
+##------E-Mail Transports Configurations---------##
+###################################################
+
+##############
+## Sendgrid ##
+##############
+SENDGRID_API_KEY=_THE_SENDGRID_API_KEY_
+# Or
+SENDGRID_USERNAME=__YOUR_SENDGRID_USERNAME__
+SENDGRID_PASSWORD=__YOUR_SENDGRID_PASSWORD__
+
+###########
+## Gmail ##
+###########
+GMAIL_EMAIL=sample@mail.com
+GMAIL_PASSWORD=_THE_PASSWORD_OF_THE_GMAIL_ACCOUNT_
+
+##################
+## Private SMTP ##
+##################
+MAIL_PRIVATE_HOST=__YOUR_MAIL_PROVIDER_HOST__
+MAIL_PRIVATE_PORT=__YOUR_MAIL_PROVIDER_PORT__
+
+# true for 465, false for other ports
+MAIL_PRIVATE_SECURE=false
+MAIL_PRIVATE_USER=__YOUR_MAIL_PROVIDER_USER__
+MAIL_PRIVATE_PASSWORD=__YOUR_MAIL_PROVIDER_PASSWORD__
 ```
