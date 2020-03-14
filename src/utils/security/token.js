@@ -71,7 +71,7 @@ const renewAccessToken = async (prisma, refreshToken) => {
  */
 const generateAccessToken = userId => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, {
-    expiresIn: '5 minutes'
+    expiresIn: '12 hours' // The amount of time the token will be valid 
   })
 }
 

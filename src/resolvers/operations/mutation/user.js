@@ -1,12 +1,12 @@
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import { ValidationError, ForbiddenError } from 'apollo-server-core'
-import moment from 'moment'
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import { ValidationError, ForbiddenError } from "apollo-server-core"
+import moment from "moment"
 
-import hashPassword from '../../../utils/security/hashPassword'
-import { generateToken, renewAccessToken } from '../../../utils/security/token'
-import mail from '../../../mail'
-import errors, { getException } from '../../../errors'
+import hashPassword from "../../../utils/security/hashPassword"
+import { generateToken, renewAccessToken } from "../../../utils/security/token"
+import mail from "../../../mail"
+import errors, { getException } from "../../../errors"
 
 const createUser = async (parent, args, { prisma }, info) => {
   const { password: passwordRaw } = args.data
@@ -62,28 +62,13 @@ const login = async (parent, args, { prisma }) => {
   const { email, password } = args.data
 
   const userExists = await prisma.$exists.user({ email })
-  console.log('userExists', userExists)
+  console.log("userExists", userExists)
   if (!userExists)
     throw getException(
       errors.validation,
       errors.validation.userNotFound,
       ValidationError
     )
-
-  const user = await prisma.user({ email })
-  const valid = await bcrypt.compare(password, user.password)
-  console.log('The user', user)
-  console.log('Is valid', valid)
-  if (!user || !valid) {
-    const {
-      emailPasswordIncorrect: { message, code }
-    } = errors.validation
-    const error = new ValidationError(message)
-    error.extensions.code = code
-    console.log('The freaking error', error)
-    throw error
-  }
-
   const isEmailVerified = await prisma.$exists.user({ email, verified: true })
   if (!isEmailVerified) {
     const {
@@ -91,6 +76,20 @@ const login = async (parent, args, { prisma }) => {
     } = errors.validation
     const error = new ValidationError(message)
     error.extensions.code = code
+    throw error
+  }
+
+  const user = await prisma.user({ email })
+  const valid = await bcrypt.compare(password, user.password)
+  console.log("The user", user)
+  console.log("Is valid", valid)
+  if (!user || !valid) {
+    const {
+      emailPasswordIncorrect: { message, code }
+    } = errors.validation
+    const error = new ValidationError(message)
+    error.extensions.code = code
+    console.log("The freaking error", error)
     throw error
   }
 
@@ -130,7 +129,7 @@ const requestResetPassword = async (parent, { email }, { prisma }, info) => {
     user: { connect: { id: user.id } },
     token,
     expiresIn: moment()
-      .add(expires.split(' ')[0], expires.split(' ')[1])
+      .add(expires.split(" ")[0], expires.split(" ")[1])
       .valueOf()
       .toString()
   })
@@ -164,7 +163,7 @@ const resetPassword = async (parent, { data }, { prisma }, info) => {
       error.extensions.code = code
       throw error
     }
-  }catch(e) {
+  } catch (e) {
     await prisma.updateResetPasswordToken({
       data: { revoke: true },
       where: { token }
@@ -172,13 +171,18 @@ const resetPassword = async (parent, { data }, { prisma }, info) => {
     throw e
   }
 
-  const isRevoked = await prisma.$exists.resetPasswordToken({ token, revoke: true })
+  const isRevoked = await prisma.$exists.resetPasswordToken({
+    token,
+    revoke: true
+  })
   if (isRevoked) {
-    const { revokedResetPasswordTokenError: { message, code } } = errors.forbidden
+    const {
+      revokedResetPasswordTokenError: { message, code }
+    } = errors.forbidden
     const error = new ForbiddenError(message)
     error.extensions.code = code
     throw error
-  }  
+  }
 
   const user = await prisma.user({ email })
   const validPassword = await bcrypt.compare(oldPassword, user.password)
@@ -195,7 +199,9 @@ const resetPassword = async (parent, { data }, { prisma }, info) => {
   // to make sure the user really changes the password
   const areTheSame = oldPassword === newPassword
   if (areTheSame) {
-    const { oldPasswordAndNewPasswordTheSame: { message, code } } = errors.validation
+    const {
+      oldPasswordAndNewPasswordTheSame: { message, code }
+    } = errors.validation
     const error = new ForbiddenError(message)
     error.extensions.code = code
     throw error
@@ -203,15 +209,15 @@ const resetPassword = async (parent, { data }, { prisma }, info) => {
 
   const newPasswordHash = await hashPassword(newPassword)
   await prisma.updateUser({
-     data: { password: newPasswordHash } ,
-     where: { email: user.email }  
+    data: { password: newPasswordHash },
+    where: { email: user.email }
   })
   await prisma.updateResetPasswordToken({
     data: { revoke: true },
     where: { token }
   })
 
-  return '<strong>Password successfully reset.</strong> You may now close this window.'
+  return "<strong>Password successfully reset.</strong> You may now close this window."
 }
 
 const updateUser = async (parent, { data, userId }, { prisma }, info) => {
